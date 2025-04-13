@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.7  C:\Github\tsea82-making-history\Labb1\Labb1\main.asm Sun Apr 13 19:36:01 2025
+AVRASM ver. 2.2.7  C:\Github\tsea82-making-history\Labb1\Labb1\main.asm Sun Apr 13 19:43:40 2025
 
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\avrasm\inc\m16adef.inc'
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\avrasm\inc\m16adef.inc'
@@ -989,11 +989,10 @@ AVRASM ver. 2.2.7  C:\Github\tsea82-making-history\Labb1\Labb1\main.asm Sun Apr 
 000037 0f22                      	lsl		r18			; Bitshift
 000038 2b20                      	or		r18,r16		; Set last bit of r18 to value of A0, Example: A0 = x, 0000000
                                  
-000039 940e 0011                 	call DELAY
+000039 940e 0011                 	call	DELAY
                                  	
 00003b 953a                      	dec		r19			; Stega ner loop-räknaren
-00003c 953a                      	dec		r19			; Stega ner loop-räknaren
-00003d f7b9                      	brne	READ_LOOP ; Fortsätt loopa tills r19 == 0
+00003c f7c1                      	brne	READ_LOOP ; Fortsätt loopa tills r19 == 0
                                  
 
 
@@ -1014,7 +1013,7 @@ counted separately from r26..r31 here.
 "ATmega16A" register use summary:
 x  :   0 y  :   0 z  :   0 r0 :   0 r1 :   0 r2 :   0 r3 :   0 r4 :   0 
 r5 :   0 r6 :   0 r7 :   0 r8 :   0 r9 :   0 r10:   0 r11:   0 r12:   0 
-r13:   0 r14:   0 r15:   0 r16:  13 r17:   2 r18:   6 r19:   3 r20:   0 
+r13:   0 r14:   0 r15:   0 r16:  13 r17:   2 r18:   6 r19:   2 r20:   0 
 r21:   0 r22:   0 r23:   0 r24:   0 r25:   0 r26:   0 r27:   0 r28:   0 
 r29:   0 r30:   0 r31:   0 
 Registers used: 4 out of 35 (11.4%)
@@ -1028,7 +1027,7 @@ brne  :   3 brpl  :   0 brsh  :   0 brtc  :   0 brts  :   0 brvc  :   0
 brvs  :   0 bset  :   0 bst   :   0 call  :  10 cbi   :   1 cbr   :   0 
 clc   :   0 clh   :   0 cli   :   0 cln   :   0 clr   :   2 cls   :   0 
 clt   :   0 clv   :   0 clz   :   0 com   :   0 cp    :   0 cpc   :   0 
-cpi   :   0 cpse  :   0 dec   :   4 eor   :   0 fmul  :   0 fmuls :   0 
+cpi   :   0 cpse  :   0 dec   :   3 eor   :   0 fmul  :   0 fmuls :   0 
 fmulsu:   0 icall :   0 ijmp  :   0 in    :   1 inc   :   0 jmp   :   3 
 ld    :   0 ldd   :   0 ldi   :   7 lds   :   0 lpm   :   0 lsl   :   1 
 lsr   :   0 mov   :   0 movw  :   0 mul   :   0 muls  :   0 mulsu :   0 
@@ -1044,7 +1043,7 @@ Instructions used: 15 out of 113 (13.3%)
 "ATmega16A" memory use summary [bytes]:
 Segment   Begin    End      Code   Data   Used    Size   Use%
 ---------------------------------------------------------------
-[.cseg] 0x000000 0x00007e    126      0    126   16384   0.8%
+[.cseg] 0x000000 0x00007c    124      0    124   16384   0.8%
 [.dseg] 0x000060 0x000060      0      0      0    1024   0.0%
 [.eseg] 0x000000 0x000000      0      0      0     512   0.0%
 

@@ -108,7 +108,7 @@ CHECK_BIT:
 
 READ_DATA_BITS:
 	clr		r18		; Nollställ itererings-index
-	ldi		r19, 5	; Loopa 4 ggr
+	ldi		r19, 4	; Loopa 4 ggr
 	jmp READ_LOOP
 
 READ_LOOP:	
@@ -118,9 +118,8 @@ READ_LOOP:
 	lsl		r18			; Bitshift
 	or		r18,r16		; Set last bit of r18 to value of A0, Example: A0 = x, 0000000
 
-	call DELAY
+	call	DELAY
 	
-	dec		r19			; Stega ner loop-räknaren
 	dec		r19			; Stega ner loop-räknaren
 	brne	READ_LOOP ; Fortsätt loopa tills r19 == 0
 
