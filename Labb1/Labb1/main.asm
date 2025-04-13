@@ -23,30 +23,30 @@ MAIN:
 
 ; Initialize IO ports
 INIT_IO:
-	; PIN A - Ingång
+	; PIN A - IngÃ¥ng
 	ldi		r16,$00			; $00 = 00000000
-	out		DDRA,r16		; hela PINA ingång
+	out		DDRA,r16		; hela PINA ingÃ¥ng
 
-	; PIN B - Utgång
+	; PIN B - UtgÃ¥ng
 	ldi		r16,$FF			; $FF = 11111111
-	out		DDRB,r16		; PORTB bit3..0 utgång (övriga blir ingång)
+	out		DDRB,r16		; PORTB bit3..0 utgÃ¥ng (Ã¶vriga blir ingÃ¥ng)
 
 	ret
 
 ; Prints content of r18 to 7-seg Display 
 PRINT:
 	;;TODO PB7 oscilloskop
-	andi	r18,$0F		; nollstället registrets övre halva, bevara lägre halva
+	andi	r18,$0F		; nollstÃ¤llet registrets Ã¶vre halva, bevara lÃ¤gre halva
 						; $0F = 00001111
 	out		PORTB,r18	; skriv ut hela register r18
 	ret					; return till caller
 
-; Rutinen DELAY är en vänteloop som samtidigt
-; avger en skvallersignal på PB7.
-; PB7 är hög (jag med) när rutinen körs
+; Rutinen DELAY Ã¤r en vÃ¤nteloop som samtidigt
+; avger en skvallersignal pÃ¥ PB7.
+; PB7 Ã¤r hÃ¶g (jag med) nÃ¤r rutinen kÃ¶rs
 ;
-; Med angivet värde i r16 väntar rutinen
-; ungefär en millisekund @ 1 MHz
+; Med angivet vÃ¤rde i r16 vÃ¤ntar rutinen
+; ungefÃ¤r en millisekund @ 1 MHz
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;					START OF LOGIC					;
@@ -68,7 +68,7 @@ LOOP:
 	; Print contents of r18 to 7-Seg Display
 	call PRINT
 
-	jmp LOOP			; Loopa föralltid
+	jmp LOOP			; Loopa fÃ¶ralltid
 
 WAIT_FOR_START_BIT:
 	
@@ -85,3 +85,15 @@ READ_DATA_BITS:
 
 
 ;; TODO copy over DELAY method
+DELAY:
+	sbi PORTB,7
+	ldi r16,10 ; Decimal bas
+delayYttreLoop:
+	ldi r17,$1F
+delayInreLoop:
+	dec r17
+	brne delayInreLoop
+	dec r16	
+	brne delayYttreLoop
+	cbi PORTB,7
+	ret
