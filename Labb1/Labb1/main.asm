@@ -2,24 +2,23 @@
 
 
 MAIN:
-	; r16 used for reading
-	; r17 is number 0-9 (print)
+	; r17 is number 0-9 for print
+
 	.equ	T_INTERVAL = 10		; global konstant
 
-	ldi		r16,HIGH(RAMEND)	;stack för subrutiner
+	; Initiera Stacken
+	ldi		r16,HIGH(RAMEND)
 	out		SPH,r16
 	ldi		r16,LOW(RAMEND)
 	out		SPL,r16
-	call	INIT				; initiera portriktningar
-	clr		r17					; Börja räkna från 0
-	; -- MAIN
 
-LOOP:
-	call	KEY
-	inc		r17
-	cpi		r17,MAX_NUM
-	brne	NUT_MAXX
-	clr		r17
+	; initiera portriktningar
+	call	INIT_IO		
+
+	clr		r17					; Börja räkna från 0
+	
+	jmp LOOP		
+	; -- MAIN
 
 
 ; Initialize IO ports
@@ -34,10 +33,22 @@ INIT_IO:
 
 	ret
 
-;;; Prints content of r17 to 7-seg Display ;;;
+; Prints content of r17 to 7-seg Display 
 PRINT:
 	;;TODO PB7 oscilloskop
 	andi	r17,$0F		; nollstället registrets övre halva, bevara lägre halva
 						; $0F = 00001111
 	out		PORTB,r17	; skriv ut hela register r17
 	ret					; return till caller
+
+	
+LOOP:
+	call WAIT_FOR_START_BIT
+	;; TODO DELAY WITH T/2
+
+	jmp LOOP			; Loopa föralltid
+
+WAIT_FOR_START_BIT:
+	
+	jmp WAIT_FOR_START_BIT
+	;; TODO while loopa här tills vi hittar startbit
