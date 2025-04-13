@@ -62,6 +62,12 @@ delayInreLoop:
 	cbi		PORTB,7
 	ret
 
+	
+READ_A0:
+	in		r16,PINA	; läs in hela porten
+	andi	r16,$01		; maska ut bit0, flaggor påverkas
+	ret					; läst bits värde signaleras i Z-flaggan
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;					START OF LOGIC					;
 ;					PROPERTY OF	BB					;
@@ -70,32 +76,52 @@ delayInreLoop:
 
 
 LOOP:
-	call WAIT_FOR_START_BIT
+	call	WAIT_FOR_START_BIT
 
-	;; TODO DELAY WITH T/2 (so we are in 'middle' of bit signal)
+	; Delay with T/2, so we are in 'middle' of signal interval
+	call DELAY
 
-	;; TODO checkbit (check that A0 is still high after T/2 delay)
+	; Ensure bit is still valid (after T/2 delay)
+	call CHECK_BIT
 
 	; Serially read incomming data bits, result written to r18
-	call READ_DATA_BITS
+	call	READ_DATA_BITS
 
 	; Print contents of r18 to 7-Seg Display
-	call PRINT
+	call	PRINT
 
-	jmp LOOP			; Loopa föralltid
+	jmp		LOOP			; Loopa föralltid
 
 WAIT_FOR_START_BIT:
-	
-	jmp WAIT_FOR_START_BIT ;; TODO keep looping while (startbit == 0)
-	; ret
+	; Read current bit in to r16
+	call	READ_A0
+	breq	WAIT_FOR_START_BIT ; while (startbit == 0)
+	ret
+
+; Check that bit was valid, if not, return to cringe idle state (never gonna happen cuz we cool),
+; Otherwise continue as normal 
+CHECK_BIT:
+	; Read current bit in to r16
+	call	READ_A0
+	breq	WAIT_FOR_START_BIT
+	ret
 
 READ_DATA_BITS:
-	;; TODO loop 4 times (for the 4 data bits)
+	clr		r18		; Nollställ itererings-index
+	ldi		r19, 5	; Loopa 4 ggr
+	jmp READ_LOOP
 
-	;; TODO read PINA-0
-	;; TODO congruate all bits to a byte, then
-	;; TODO delay with T
+READ_LOOP:	
+	; Read A0 bit, value is in r16 and all bits except least significant = 0. example ()
+	call	READ_A0
 
+	lsl		r18			; Bitshift
+	or		r18,r16		; Set last bit of r18 to value of A0, Example: A0 = x, 0000000
 
+	call DELAY
+	
+	dec		r19			; Stega ner loop-räknaren
+	dec		r19			; Stega ner loop-räknaren
+	brne	READ_LOOP ; Fortsätt loopa tills r19 == 0
 
-;; TODO copy over DELAY method
+	ret
