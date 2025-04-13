@@ -47,6 +47,20 @@ PRINT:
 ;
 ; Med angivet värde i r16 väntar rutinen
 ; ungefär en millisekund @ 1 MHz
+;
+; PORTB måste konfigureras separat.
+DELAY:
+	sbi		PORTB,7
+	ldi		r16,10		; Decimal bas
+delayYttreLoop:
+	ldi		r17,$1F
+delayInreLoop:
+	dec		r17
+	brne	delayInreLoop
+	dec		r16
+	brne	delayYttreLoop
+	cbi		PORTB,7
+	ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;					START OF LOGIC					;
