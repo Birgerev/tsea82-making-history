@@ -6,7 +6,10 @@
 ;
 
 
-; Replace with your application code
-start:
-    inc r16
-    rjmp start
+
+
+PRINT:
+	andi	r17,$0F		; nollstället registrets övre halva, bevara lägre halva
+						; $0F = 00001111
+	out		PORTB,r17	; skriv ut hela register r17
+	ret					; return till caller
