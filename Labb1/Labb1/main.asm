@@ -41,6 +41,9 @@ PRINT:
 	out		PORTB,r18	; skriv ut hela register r18
 	ret					; return till caller
 
+DELAY2:
+	call	DELAY
+	call	DELAY
 ; Rutinen DELAY är en vänteloop som samtidigt
 ; avger en skvallersignal på PB7.
 ; PB7 är hög (jag med) när rutinen körs
@@ -66,6 +69,10 @@ delayInreLoop:
 READ_A0:
 	in		r16,PINA	; läs in hela porten
 	andi	r16,$01		; maska ut bit0, flaggor påverkas
+	lsl		r16
+	lsl		r16
+	lsl		r16
+	lsl		r16
 	ret					; läst bits värde signaleras i Z-flaggan
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -89,6 +96,8 @@ LOOP:
 
 	; Print contents of r18 to 7-Seg Display
 	call	PRINT
+	
+	call DELAY2
 
 	jmp		LOOP			; Loopa föralltid
 
@@ -104,6 +113,9 @@ CHECK_BIT:
 	; Read current bit in to r16
 	call	READ_A0
 	breq	WAIT_FOR_START_BIT
+	
+	; Delay with T
+	call	DELAY2
 	ret
 
 READ_DATA_BITS:
@@ -115,10 +127,11 @@ READ_LOOP:
 	; Read A0 bit, value is in r16 and all bits except least significant = 0. example ()
 	call	READ_A0
 
-	lsl		r18			; Bitshift
 	or		r18,r16		; Set last bit of r18 to value of A0, Example: A0 = x, 0000000
+	lsr		r18			; Bitshift
 
-	call	DELAY
+	; Delay with T
+	call	DELAY2
 	
 	dec		r19			; Stega ner loop-räknaren
 	brne	READ_LOOP ; Fortsätt loopa tills r19 == 0

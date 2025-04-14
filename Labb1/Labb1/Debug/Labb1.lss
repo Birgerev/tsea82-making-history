@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.7  C:\Github\tsea82-making-history\Labb1\Labb1\main.asm Sun Apr 13 19:43:40 2025
+AVRASM ver. 2.2.7  C:\Github\tsea82-making-history\Labb1\Labb1\main.asm Mon Apr 14 13:34:36 2025
 
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\avrasm\inc\m16adef.inc'
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\avrasm\inc\m16adef.inc'
@@ -888,7 +888,7 @@ AVRASM ver. 2.2.7  C:\Github\tsea82-making-history\Labb1\Labb1\main.asm Sun Apr 
                                  
 000006 2722                      	clr		r18
                                  	
-000007 940c 001d                 	jmp LOOP		
+000007 940c 0021                 	jmp LOOP		
                                  	; -- MAIN
                                  
                                  
@@ -937,7 +937,11 @@ AVRASM ver. 2.2.7  C:\Github\tsea82-making-history\Labb1\Labb1\main.asm Sun Apr 
                                  READ_A0:
 00001a b309                      	in		r16,PINA	; läs in hela porten
 00001b 7001                      	andi	r16,$01		; maska ut bit0, flaggor påverkas
-00001c 9508                      	ret					; läst bits värde signaleras i Z-flaggan
+00001c 0f00                      	lsl		r16
+00001d 0f00                      	lsl		r16
+00001e 0f00                      	lsl		r16
+00001f 0f00                      	lsl		r16
+000020 9508                      	ret					; läst bits värde signaleras i Z-flaggan
                                  
                                  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                                  ;					START OF LOGIC					;
@@ -947,52 +951,54 @@ AVRASM ver. 2.2.7  C:\Github\tsea82-making-history\Labb1\Labb1\main.asm Sun Apr 
                                  
                                  
                                  LOOP:
-00001d 940e 0029                 	call	WAIT_FOR_START_BIT
+000021 940e 002d                 	call	WAIT_FOR_START_BIT
                                  
                                  	; Delay with T/2, so we are in 'middle' of signal interval
-00001f 940e 0011                 	call DELAY
+000023 940e 0011                 	call DELAY
                                  
                                  	; Ensure bit is still valid (after T/2 delay)
-000021 940e 002d                 	call CHECK_BIT
+000025 940e 0031                 	call CHECK_BIT
                                  
                                  	; Serially read incomming data bits, result written to r18
-000023 940e 0031                 	call	READ_DATA_BITS
+000027 940e 0035                 	call	READ_DATA_BITS
                                  
                                  	; Print contents of r18 to 7-Seg Display
-000025 940e 000e                 	call	PRINT
+000029 940e 000e                 	call	PRINT
                                  
-000027 940c 001d                 	jmp		LOOP			; Loopa föralltid
+00002b 940c 0021                 	jmp		LOOP			; Loopa föralltid
                                  
                                  WAIT_FOR_START_BIT:
                                  	; Read current bit in to r16
-000029 940e 001a                 	call	READ_A0
-00002b f3e9                      	breq	WAIT_FOR_START_BIT ; while (startbit == 0)
-00002c 9508                      	ret
+00002d 940e 001a                 	call	READ_A0
+00002f f3e9                      	breq	WAIT_FOR_START_BIT ; while (startbit == 0)
+000030 9508                      	ret
                                  
                                  ; Check that bit was valid, if not, return to cringe idle state (never gonna happen cuz we cool),
                                  ; Otherwise continue as normal 
                                  CHECK_BIT:
                                  	; Read current bit in to r16
-00002d 940e 001a                 	call	READ_A0
-00002f f3c9                      	breq	WAIT_FOR_START_BIT
-000030 9508                      	ret
+000031 940e 001a                 	call	READ_A0
+000033 f3c9                      	breq	WAIT_FOR_START_BIT
+000034 9508                      	ret
                                  
                                  READ_DATA_BITS:
-000031 2722                      	clr		r18		; Nollställ itererings-index
-000032 e034                      	ldi		r19, 4	; Loopa 4 ggr
-000033 940c 0035                 	jmp READ_LOOP
+000035 2722                      	clr		r18		; Nollställ itererings-index
+000036 e034                      	ldi		r19, 4	; Loopa 4 ggr
+000037 940c 0039                 	jmp READ_LOOP
                                  
                                  READ_LOOP:	
-                                 	; Read A0 bit, value is in r16 and all bits except least significant = 0. example ()
-000035 940e 001a                 	call	READ_A0
-                                 
-000037 0f22                      	lsl		r18			; Bitshift
-000038 2b20                      	or		r18,r16		; Set last bit of r18 to value of A0, Example: A0 = x, 0000000
-                                 
+                                 	; Delay with T
 000039 940e 0011                 	call	DELAY
+00003b 940e 0011                 	call	DELAY
+                                 
+                                 	; Read A0 bit, value is in r16 and all bits except least significant = 0. example ()
+00003d 940e 001a                 	call	READ_A0
+                                 
+00003f 2b20                      	or		r18,r16		; Set last bit of r18 to value of A0, Example: A0 = x, 0000000
+000040 9526                      	lsr		r18			; Bitshift
                                  	
-00003b 953a                      	dec		r19			; Stega ner loop-räknaren
-00003c f7c1                      	brne	READ_LOOP ; Fortsätt loopa tills r19 == 0
+000041 953a                      	dec		r19			; Stega ner loop-räknaren
+000042 f7b1                      	brne	READ_LOOP ; Fortsätt loopa tills r19 == 0
                                  
 
 
@@ -1013,7 +1019,7 @@ counted separately from r26..r31 here.
 "ATmega16A" register use summary:
 x  :   0 y  :   0 z  :   0 r0 :   0 r1 :   0 r2 :   0 r3 :   0 r4 :   0 
 r5 :   0 r6 :   0 r7 :   0 r8 :   0 r9 :   0 r10:   0 r11:   0 r12:   0 
-r13:   0 r14:   0 r15:   0 r16:  13 r17:   2 r18:   6 r19:   2 r20:   0 
+r13:   0 r14:   0 r15:   0 r16:  17 r17:   2 r18:   6 r19:   2 r20:   0 
 r21:   0 r22:   0 r23:   0 r24:   0 r25:   0 r26:   0 r27:   0 r28:   0 
 r29:   0 r30:   0 r31:   0 
 Registers used: 4 out of 35 (11.4%)
@@ -1024,13 +1030,13 @@ andi  :   2 asr   :   0 bclr  :   0 bld   :   0 brbc  :   0 brbs  :   0
 brcc  :   0 brcs  :   0 break :   0 breq  :   2 brge  :   0 brhc  :   0 
 brhs  :   0 brid  :   0 brie  :   0 brlo  :   0 brlt  :   0 brmi  :   0 
 brne  :   3 brpl  :   0 brsh  :   0 brtc  :   0 brts  :   0 brvc  :   0 
-brvs  :   0 bset  :   0 bst   :   0 call  :  10 cbi   :   1 cbr   :   0 
+brvs  :   0 bset  :   0 bst   :   0 call  :  11 cbi   :   1 cbr   :   0 
 clc   :   0 clh   :   0 cli   :   0 cln   :   0 clr   :   2 cls   :   0 
 clt   :   0 clv   :   0 clz   :   0 com   :   0 cp    :   0 cpc   :   0 
 cpi   :   0 cpse  :   0 dec   :   3 eor   :   0 fmul  :   0 fmuls :   0 
 fmulsu:   0 icall :   0 ijmp  :   0 in    :   1 inc   :   0 jmp   :   3 
-ld    :   0 ldd   :   0 ldi   :   7 lds   :   0 lpm   :   0 lsl   :   1 
-lsr   :   0 mov   :   0 movw  :   0 mul   :   0 muls  :   0 mulsu :   0 
+ld    :   0 ldd   :   0 ldi   :   7 lds   :   0 lpm   :   0 lsl   :   4 
+lsr   :   1 mov   :   0 movw  :   0 mul   :   0 muls  :   0 mulsu :   0 
 neg   :   0 nop   :   0 or    :   1 ori   :   0 out   :   5 pop   :   0 
 push  :   0 rcall :   0 ret   :   7 reti  :   0 rjmp  :   0 rol   :   0 
 ror   :   0 sbc   :   0 sbci  :   0 sbi   :   1 sbic  :   0 sbis  :   0 
@@ -1038,12 +1044,12 @@ sbiw  :   0 sbr   :   0 sbrc  :   0 sbrs  :   0 sec   :   0 seh   :   0
 sei   :   0 sen   :   0 ser   :   0 ses   :   0 set   :   0 sev   :   0 
 sez   :   0 sleep :   0 spm   :   0 st    :   0 std   :   0 sts   :   0 
 sub   :   0 subi  :   0 swap  :   0 tst   :   0 wdr   :   0 
-Instructions used: 15 out of 113 (13.3%)
+Instructions used: 16 out of 113 (14.2%)
 
 "ATmega16A" memory use summary [bytes]:
 Segment   Begin    End      Code   Data   Used    Size   Use%
 ---------------------------------------------------------------
-[.cseg] 0x000000 0x00007c    124      0    124   16384   0.8%
+[.cseg] 0x000000 0x000088    136      0    136   16384   0.8%
 [.dseg] 0x000060 0x000060      0      0      0    1024   0.0%
 [.eseg] 0x000000 0x000000      0      0      0     512   0.0%
 
