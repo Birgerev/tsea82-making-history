@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.7  C:\Github\tsea82-making-history\Labb1\Labb1\main.asm Mon Apr 14 13:34:36 2025
+AVRASM ver. 2.2.7  C:\Github\tsea82-making-history\Labb1\Labb1\main.asm Mon Apr 14 14:37:41 2025
 
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\avrasm\inc\m16adef.inc'
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\avrasm\inc\m16adef.inc'
@@ -888,7 +888,7 @@ AVRASM ver. 2.2.7  C:\Github\tsea82-making-history\Labb1\Labb1\main.asm Mon Apr 
                                  
 000006 2722                      	clr		r18
                                  	
-000007 940c 0021                 	jmp LOOP		
+000007 940c 0025                 	jmp LOOP		
                                  	; -- MAIN
                                  
                                  
@@ -912,6 +912,9 @@ AVRASM ver. 2.2.7  C:\Github\tsea82-making-history\Labb1\Labb1\main.asm Mon Apr 
 00000f bb28                      	out		PORTB,r18	; skriv ut hela register r18
 000010 9508                      	ret					; return till caller
                                  
+                                 DELAY2:
+000011 940e 0015                 	call	DELAY
+000013 940e 0015                 	call	DELAY
                                  ; Rutinen DELAY är en vänteloop som samtidigt
                                  ; avger en skvallersignal på PB7.
                                  ; PB7 är hög (jag med) när rutinen körs
@@ -921,27 +924,27 @@ AVRASM ver. 2.2.7  C:\Github\tsea82-making-history\Labb1\Labb1\main.asm Mon Apr 
                                  ;
                                  ; PORTB måste konfigureras separat.
                                  DELAY:
-000011 9ac7                      	sbi		PORTB,7
-000012 e00a                      	ldi		r16,10		; Decimal bas
+000015 9ac7                      	sbi		PORTB,7
+000016 e00a                      	ldi		r16,10		; Decimal bas
                                  delayYttreLoop:
-000013 e11f                      	ldi		r17,$1F
+000017 e11f                      	ldi		r17,$1F
                                  delayInreLoop:
-000014 951a                      	dec		r17
-000015 f7f1                      	brne	delayInreLoop
-000016 950a                      	dec		r16
-000017 f7d9                      	brne	delayYttreLoop
-000018 98c7                      	cbi		PORTB,7
-000019 9508                      	ret
+000018 951a                      	dec		r17
+000019 f7f1                      	brne	delayInreLoop
+00001a 950a                      	dec		r16
+00001b f7d9                      	brne	delayYttreLoop
+00001c 98c7                      	cbi		PORTB,7
+00001d 9508                      	ret
                                  
                                  	
                                  READ_A0:
-00001a b309                      	in		r16,PINA	; läs in hela porten
-00001b 7001                      	andi	r16,$01		; maska ut bit0, flaggor påverkas
-00001c 0f00                      	lsl		r16
-00001d 0f00                      	lsl		r16
-00001e 0f00                      	lsl		r16
-00001f 0f00                      	lsl		r16
-000020 9508                      	ret					; läst bits värde signaleras i Z-flaggan
+00001e b309                      	in		r16,PINA	; läs in hela porten
+00001f 7001                      	andi	r16,$01		; maska ut bit0, flaggor påverkas
+000020 0f00                      	lsl		r16
+000021 0f00                      	lsl		r16
+000022 0f00                      	lsl		r16
+000023 0f00                      	lsl		r16
+000024 9508                      	ret					; läst bits värde signaleras i Z-flaggan
                                  
                                  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                                  ;					START OF LOGIC					;
@@ -951,54 +954,58 @@ AVRASM ver. 2.2.7  C:\Github\tsea82-making-history\Labb1\Labb1\main.asm Mon Apr 
                                  
                                  
                                  LOOP:
-000021 940e 002d                 	call	WAIT_FOR_START_BIT
+000025 940e 0033                 	call	WAIT_FOR_START_BIT
                                  
                                  	; Delay with T/2, so we are in 'middle' of signal interval
-000023 940e 0011                 	call DELAY
+000027 940e 0015                 	call DELAY
                                  
                                  	; Ensure bit is still valid (after T/2 delay)
-000025 940e 0031                 	call CHECK_BIT
+000029 940e 0037                 	call CHECK_BIT
                                  
                                  	; Serially read incomming data bits, result written to r18
-000027 940e 0035                 	call	READ_DATA_BITS
+00002b 940e 003d                 	call	READ_DATA_BITS
                                  
                                  	; Print contents of r18 to 7-Seg Display
-000029 940e 000e                 	call	PRINT
+00002d 940e 000e                 	call	PRINT
+                                 	
+00002f 940e 0011                 	call DELAY2
                                  
-00002b 940c 0021                 	jmp		LOOP			; Loopa föralltid
+000031 940c 0025                 	jmp		LOOP			; Loopa föralltid
                                  
                                  WAIT_FOR_START_BIT:
                                  	; Read current bit in to r16
-00002d 940e 001a                 	call	READ_A0
-00002f f3e9                      	breq	WAIT_FOR_START_BIT ; while (startbit == 0)
-000030 9508                      	ret
+000033 940e 001e                 	call	READ_A0
+000035 f3e9                      	breq	WAIT_FOR_START_BIT ; while (startbit == 0)
+000036 9508                      	ret
                                  
                                  ; Check that bit was valid, if not, return to cringe idle state (never gonna happen cuz we cool),
                                  ; Otherwise continue as normal 
                                  CHECK_BIT:
                                  	; Read current bit in to r16
-000031 940e 001a                 	call	READ_A0
-000033 f3c9                      	breq	WAIT_FOR_START_BIT
-000034 9508                      	ret
+000037 940e 001e                 	call	READ_A0
+000039 f3c9                      	breq	WAIT_FOR_START_BIT
+                                 	
+                                 	; Delay with T
+00003a 940e 0011                 	call	DELAY2
+00003c 9508                      	ret
                                  
                                  READ_DATA_BITS:
-000035 2722                      	clr		r18		; Nollställ itererings-index
-000036 e034                      	ldi		r19, 4	; Loopa 4 ggr
-000037 940c 0039                 	jmp READ_LOOP
+00003d 2722                      	clr		r18		; Nollställ itererings-index
+00003e e034                      	ldi		r19, 4	; Loopa 4 ggr
+00003f 940c 0041                 	jmp READ_LOOP
                                  
                                  READ_LOOP:	
-                                 	; Delay with T
-000039 940e 0011                 	call	DELAY
-00003b 940e 0011                 	call	DELAY
-                                 
                                  	; Read A0 bit, value is in r16 and all bits except least significant = 0. example ()
-00003d 940e 001a                 	call	READ_A0
+000041 940e 001e                 	call	READ_A0
                                  
-00003f 2b20                      	or		r18,r16		; Set last bit of r18 to value of A0, Example: A0 = x, 0000000
-000040 9526                      	lsr		r18			; Bitshift
+000043 2b20                      	or		r18,r16		; Set last bit of r18 to value of A0, Example: A0 = x, 0000000
+000044 9526                      	lsr		r18			; Bitshift
+                                 
+                                 	; Delay with T
+000045 940e 0011                 	call	DELAY2
                                  	
-000041 953a                      	dec		r19			; Stega ner loop-räknaren
-000042 f7b1                      	brne	READ_LOOP ; Fortsätt loopa tills r19 == 0
+000047 953a                      	dec		r19			; Stega ner loop-räknaren
+000048 f7c1                      	brne	READ_LOOP ; Fortsätt loopa tills r19 == 0
                                  
 
 
@@ -1030,7 +1037,7 @@ andi  :   2 asr   :   0 bclr  :   0 bld   :   0 brbc  :   0 brbs  :   0
 brcc  :   0 brcs  :   0 break :   0 breq  :   2 brge  :   0 brhc  :   0 
 brhs  :   0 brid  :   0 brie  :   0 brlo  :   0 brlt  :   0 brmi  :   0 
 brne  :   3 brpl  :   0 brsh  :   0 brtc  :   0 brts  :   0 brvc  :   0 
-brvs  :   0 bset  :   0 bst   :   0 call  :  11 cbi   :   1 cbr   :   0 
+brvs  :   0 bset  :   0 bst   :   0 call  :  14 cbi   :   1 cbr   :   0 
 clc   :   0 clh   :   0 cli   :   0 cln   :   0 clr   :   2 cls   :   0 
 clt   :   0 clv   :   0 clz   :   0 com   :   0 cp    :   0 cpc   :   0 
 cpi   :   0 cpse  :   0 dec   :   3 eor   :   0 fmul  :   0 fmuls :   0 
@@ -1049,7 +1056,7 @@ Instructions used: 16 out of 113 (14.2%)
 "ATmega16A" memory use summary [bytes]:
 Segment   Begin    End      Code   Data   Used    Size   Use%
 ---------------------------------------------------------------
-[.cseg] 0x000000 0x000088    136      0    136   16384   0.8%
+[.cseg] 0x000000 0x000094    148      0    148   16384   0.9%
 [.dseg] 0x000060 0x000060      0      0      0    1024   0.0%
 [.eseg] 0x000000 0x000000      0      0      0     512   0.0%
 

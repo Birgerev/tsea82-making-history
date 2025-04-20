@@ -24,15 +24,16 @@
  <LABELS>
   <MAIN><FILE>C:\Github\tsea82-making-history\Labb1\Labb1\main.asm</FILE><LINE>4</LINE></MAIN>
   <INIT_IO><FILE>C:\Github\tsea82-making-history\Labb1\Labb1\main.asm</FILE><LINE>25</LINE></INIT_IO>
-  <LOOP><FILE>C:\Github\tsea82-making-history\Labb1\Labb1\main.asm</FILE><LINE>82</LINE></LOOP>
+  <LOOP><FILE>C:\Github\tsea82-making-history\Labb1\Labb1\main.asm</FILE><LINE>85</LINE></LOOP>
   <PRINT><FILE>C:\Github\tsea82-making-history\Labb1\Labb1\main.asm</FILE><LINE>37</LINE></PRINT>
-  <DELAY><FILE>C:\Github\tsea82-making-history\Labb1\Labb1\main.asm</FILE><LINE>52</LINE></DELAY>
-  <delayYttreLoop><FILE>C:\Github\tsea82-making-history\Labb1\Labb1\main.asm</FILE><LINE>55</LINE></delayYttreLoop>
-  <delayInreLoop><FILE>C:\Github\tsea82-making-history\Labb1\Labb1\main.asm</FILE><LINE>57</LINE></delayInreLoop>
-  <READ_A0><FILE>C:\Github\tsea82-making-history\Labb1\Labb1\main.asm</FILE><LINE>66</LINE></READ_A0>
-  <WAIT_FOR_START_BIT><FILE>C:\Github\tsea82-making-history\Labb1\Labb1\main.asm</FILE><LINE>99</LINE></WAIT_FOR_START_BIT>
-  <CHECK_BIT><FILE>C:\Github\tsea82-making-history\Labb1\Labb1\main.asm</FILE><LINE>107</LINE></CHECK_BIT>
-  <READ_DATA_BITS><FILE>C:\Github\tsea82-making-history\Labb1\Labb1\main.asm</FILE><LINE>113</LINE></READ_DATA_BITS>
-  <READ_LOOP><FILE>C:\Github\tsea82-making-history\Labb1\Labb1\main.asm</FILE><LINE>118</LINE></READ_LOOP>
+  <DELAY2><FILE>C:\Github\tsea82-making-history\Labb1\Labb1\main.asm</FILE><LINE>44</LINE></DELAY2>
+  <DELAY><FILE>C:\Github\tsea82-making-history\Labb1\Labb1\main.asm</FILE><LINE>55</LINE></DELAY>
+  <delayYttreLoop><FILE>C:\Github\tsea82-making-history\Labb1\Labb1\main.asm</FILE><LINE>58</LINE></delayYttreLoop>
+  <delayInreLoop><FILE>C:\Github\tsea82-making-history\Labb1\Labb1\main.asm</FILE><LINE>60</LINE></delayInreLoop>
+  <READ_A0><FILE>C:\Github\tsea82-making-history\Labb1\Labb1\main.asm</FILE><LINE>69</LINE></READ_A0>
+  <WAIT_FOR_START_BIT><FILE>C:\Github\tsea82-making-history\Labb1\Labb1\main.asm</FILE><LINE>104</LINE></WAIT_FOR_START_BIT>
+  <CHECK_BIT><FILE>C:\Github\tsea82-making-history\Labb1\Labb1\main.asm</FILE><LINE>112</LINE></CHECK_BIT>
+  <READ_DATA_BITS><FILE>C:\Github\tsea82-making-history\Labb1\Labb1\main.asm</FILE><LINE>121</LINE></READ_DATA_BITS>
+  <READ_LOOP><FILE>C:\Github\tsea82-making-history\Labb1\Labb1\main.asm</FILE><LINE>126</LINE></READ_LOOP>
  </LABELS>
 </ASSEMBLER_INFO>
