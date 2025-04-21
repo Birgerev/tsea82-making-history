@@ -8,7 +8,7 @@
 ; Huvudloop som sänder en hel sträng
 MORSE:
 	.equ T, 0			; Tone frequency constant
-	.equ N, 0			; Morse Delay constant (frequency we send characters at)
+	.equ N, 20			; Morse Delay constant (frequency we send characters at)
 
 	;TODO this is all pseudo code
 	call HW_INIT
