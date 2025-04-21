@@ -69,7 +69,8 @@ CHAR_LOOP:
 	; Binary Morse-representation will now be in r16
 
 	call SEND
-	call NOBEEP			; TODO NOBEEP over 2N
+	call NOBEEP			; Silence over 2N
+	call NOBEEP
 
 	CALL GET_CHAR		; Get next character in string
 	cpi r16, 0			; Loop until no more chars (r16 == 0)
