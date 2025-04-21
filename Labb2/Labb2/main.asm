@@ -10,6 +10,8 @@ MORSE:
 	.equ T, 0			; Tone frequency constant
 	.equ N, 20			; Morse Delay constant (frequency we send characters at)
 
+	;TODO save MORSE table in BTAB memory
+
 	;TODO this is all pseudo code
 	call HW_INIT
 	call GET_CHAR
@@ -56,6 +58,9 @@ SEND:
 GET_BIT:
 	; TODO we bitshift the character byte
 	; Next bit is found in the carry flag
+
+	;When whole byte is 0 and carry flag is 1,
+	; we know character is done
 	ret
 
 ; Sends all bits for a character
