@@ -54,6 +54,8 @@ SEND:
 
 ; Get the next bit to send
 GET_BIT:
+	; TODO we bitshift the character byte
+	; Next bit is found in the carry flag
 	ret
 
 ; Sends all bits for a character
