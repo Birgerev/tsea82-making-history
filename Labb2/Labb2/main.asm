@@ -10,6 +10,8 @@ MORSE:
 	.equ T, 0			; Tone frequency constant
 	.equ N, 20			; Morse Delay constant (frequency we send characters at)
 
+	call BTAB_INIT
+
 	;TODO pusha alla register vi använder till stacken
 	; De måste enl instruktionerna vara opåverkade (höhö som jag ;) )
 	; efter vi kört programmet
@@ -115,3 +117,33 @@ delayInreLoop:
 	brne	delayYttreLoop
 	cbi		PORTB,7
 	ret
+
+; BTAB – Morse binärkod för A–Z (0x41–0x5A)
+; Index = ASCII - 0x41
+BTAB_INIT:
+	.db 0x60; A
+	.db 0x88; B
+	.db 0xA8; C
+	.db 0x90; D
+	.db 0x40; E
+	.db 0x28; F
+	.db 0xD0; G
+	.db 0x10; H
+	.db 0x20; I
+	.db 0x78; J
+	.db 0xB0; K
+	.db 0x48; L
+	.db 0xE0; M
+	.db 0xA0; N
+	.db 0xF0; O
+	.db 0x68; P
+	.db 0xD8; Q
+	.db 0x50; R
+	.db 0x10; S
+	.db 0xC0; T
+	.db 0x30; U
+	.db 0x18; V
+	.db 0x70; W
+	.db 0x98; X
+	.db 0xB8; Y
+	.db 0xC8; Z
