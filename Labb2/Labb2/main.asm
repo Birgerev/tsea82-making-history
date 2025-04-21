@@ -10,7 +10,13 @@ MORSE:
 	.equ T, 0			; Tone frequency constant
 	.equ N, 20			; Morse Delay constant (frequency we send characters at)
 
+	;TODO pusha alla register vi använder till stacken
+	; De måste enl instruktionerna vara opåverkade (höhö som jag ;) )
+	; efter vi kört programmet
+
 	;TODO save MORSE table in BTAB memory
+	
+
 
 	;TODO this is all pseudo code
 	call HW_INIT
