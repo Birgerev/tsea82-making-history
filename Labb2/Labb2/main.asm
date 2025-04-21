@@ -50,20 +50,26 @@ MORSE:
 	;TODO pusha alla register vi använder till stacken (inklusive Z etc)
 	; De måste enl instruktionerna vara opåverkade (höhö som jag ;) )
 	; efter vi kört programmet	
+	push r16
+	push r30
+	push r31
 
 	ldi r30, low(STR << 1)	; Ladda ZL-pekare (för strängen)
 	ldi r30, high(STR << 1)	; Ladda ZH-pekare
 	
 	call GET_CHAR			; Get first character in string
-	call CHAR_LOOP
+	call BEEP_CHARS
 
 	;;TODO pop all regs
+	pop r31
+	pop r30
+	pop r16
 
 	rjmp MORSE				; Loop again
 
 ; Logic for sending one character
 ; Call 'GET_CHAR' first
-CHAR_LOOP:
+BEEP_CHARS:
 	; We have ASCII-character in r16
 	call LOOKUP			; Convert character to morse representation
 	; Binary Morse-representation will now be in r16
@@ -74,7 +80,7 @@ CHAR_LOOP:
 
 	CALL GET_CHAR		; Get next character in string
 	cpi r16, 0			; Loop until no more chars (r16 == 0)
-	brne CHAR_LOOP
+	brne BEEP_CHARS
 	ret					; Return to MORSE routine
 
 ; Get next ASCII-character from string
@@ -84,7 +90,7 @@ GET_CHAR:
 	ret
 
 ; Sends morse character
-BEEP_CHAR:
+BEEP_CHARS:
 	ret
 
 ; Translates ASCII-character to binary
