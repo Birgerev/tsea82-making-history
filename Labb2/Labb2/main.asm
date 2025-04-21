@@ -81,3 +81,24 @@ NOBEEP3:
 	call NOBEEP
 	call NOBEEP
 	ret
+
+; Rutinen DELAY är en vänteloop som samtidigt
+; avger en skvallersignal på PB7.
+; PB7 är hög (jag med) när rutinen körs
+;
+; Med angivet värde i r16 väntar rutinen
+; ungefär en millisekund @ 1 MHz
+;
+; PORTB måste konfigureras separat.
+DELAY:
+	sbi		PORTB,7
+	ldi		r16,10		; Decimal bas
+delayYttreLoop:
+	ldi		r17,$1F
+delayInreLoop:
+	dec		r17
+	brne	delayInreLoop
+	dec		r16
+	brne	delayYttreLoop
+	cbi		PORTB,7
+	ret
