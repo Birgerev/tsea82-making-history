@@ -1,45 +1,85 @@
-;
-; Labb2.asm
-;
-; Created: 2025-04-20 14:06:46
-; Author : itmokarn
-;
 
-; Huvudloop som sänder en hel sträng
-MORSE:
-	.equ T, 0			; Tone frequency constant
-	.equ N, 20			; Morse Delay constant (frequency we send characters at)
-
-	call BTAB_INIT
-
-	;TODO pusha alla register vi använder till stacken
-	; De måste enl instruktionerna vara opåverkade (höhö som jag ;) )
-	; efter vi kört programmet
-
-	;TODO save MORSE table in BTAB memory
+.equ T, 0			; Tone frequency constant
+.equ N, 20			; Morse Delay constant (frequency we send characters at)
 	
+STR: .db "DATORTEKNIK", 0
+
+; BTAB – Morse binärkod för A–Z (0x41–0x5A)
+; Index = ASCII - 0x41
+BTAB:
+	.db 0x60; A
+	.db 0x88; B
+	.db 0xA8; C
+	.db 0x90; D
+	.db 0x40; E
+	.db 0x28; F
+	.db 0xD0; G
+	.db 0x10; H
+	.db 0x20; I
+	.db 0x78; J
+	.db 0xB0; K
+	.db 0x48; L
+	.db 0xE0; M
+	.db 0xA0; N
+	.db 0xF0; O
+	.db 0x68; P
+	.db 0xD8; Q
+	.db 0x50; R
+	.db 0x10; S
+	.db 0xC0; T
+	.db 0x30; U
+	.db 0x18; V
+	.db 0x70; W
+	.db 0x98; X
+	.db 0xB8; Y
+	.db 0xC8; Z
 
 
-	;TODO this is all pseudo code
-	call HW_INIT
-	call GET_CHAR
-	;TODO while loop as long as there are characters
-	;while(char!=0):
-	call LOOKUP
-	call SEND
-	call NOBEEP			;TODO NOBEEP over 2N
-	CALL GET_CHAR		; Get next character
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;		START OF LOGIC	;;;
+;;;		PROPERTY OF		;;;
+;;;		BIG BIRGER		;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ; Initialize hardware
 HW_INIT:
 	ret
 
-; Get next ASCII-character from string
-GET_CHAR:
-	ret
+; Huvudloop som sänder en hel sträng
+MORSE:
+	;TODO pusha alla register vi använder till stacken (inklusive Z etc)
+	; De måste enl instruktionerna vara opåverkade (höhö som jag ;) )
+	; efter vi kört programmet	
+
+	ldi r30, low(STR << 1)	; Ladda ZL-pekare (för strängen)
+	ldi r30, high(STR << 1)	; Ladda ZH-pekare
+	
+	call GET_CHAR			; Get first character in string
+	call CHAR_LOOP
+
+	;;TODO pop all regs
+
+	rjmp MORSE				; Loop again
 
 ; Logic for sending one character
-ONE_CHAR:
+; Call 'GET_CHAR' first
+CHAR_LOOP:
+	; We have ASCII-character in r16
+	call LOOKUP			; Convert character to morse representation
+	; Binary Morse-representation will now be in r16
+
+	call SEND
+	call NOBEEP			; TODO NOBEEP over 2N
+
+	CALL GET_CHAR		; Get next character in string
+	cpi r16, 0			; Loop until no more chars (r16 == 0)
+	brne CHAR_LOOP
+	ret					; Return to MORSE routine
+
+; Get next ASCII-character from string
+; Next character byte is saved to r16
+GET_CHAR:
+	lpm r16, Z+			; Read character byte from Z-pointer, then increment pointer
 	ret
 
 ; Sends morse character
@@ -47,7 +87,28 @@ BEEP_CHAR:
 	ret
 
 ; Translates ASCII-character to binary
+; Character in r16
+; Output morse representation in r16
 LOOKUP:
+	push r30			; Store Z-pointer on stack
+	push r31
+	
+	; Subtrahera ASCII-kod för första bokstaven 'A' ($41)
+	subi r16, 'A'		; r16 = index i BTAB
+
+	; Ladda addressen till BTAB i Z-pointer
+	ldi r30, low(BTAB << 1)
+	ldi r31, high(BTAB << 1)
+
+	; Add r16 offset to Z-pointer
+	add r30, r16
+	adc r31, __zero_reg__	; Handle pointer carry overflow
+
+	; Read Morse representation from BTAB
+	lpm r16, Z
+	
+	pop r31
+	pop r30 
 	ret
 	
 ; Sends a character
@@ -75,7 +136,7 @@ GET_BIT:
 SEND_BITS
 	ret
 
-;
+; Sends a "-" or "." and then waits
 BIT:
 	ret
 
@@ -117,33 +178,3 @@ delayInreLoop:
 	brne	delayYttreLoop
 	cbi		PORTB,7
 	ret
-
-; BTAB – Morse binärkod för A–Z (0x41–0x5A)
-; Index = ASCII - 0x41
-BTAB_INIT:
-	.db 0x60; A
-	.db 0x88; B
-	.db 0xA8; C
-	.db 0x90; D
-	.db 0x40; E
-	.db 0x28; F
-	.db 0xD0; G
-	.db 0x10; H
-	.db 0x20; I
-	.db 0x78; J
-	.db 0xB0; K
-	.db 0x48; L
-	.db 0xE0; M
-	.db 0xA0; N
-	.db 0xF0; O
-	.db 0x68; P
-	.db 0xD8; Q
-	.db 0x50; R
-	.db 0x10; S
-	.db 0xC0; T
-	.db 0x30; U
-	.db 0x18; V
-	.db 0x70; W
-	.db 0x98; X
-	.db 0xB8; Y
-	.db 0xC8; Z
