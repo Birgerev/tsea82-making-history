@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.7  C:\Github\tsea82-making-history\Labb2\Labb2\main.asm Tue Apr 22 09:57:50 2025
+AVRASM ver. 2.2.7  C:\Github\tsea82-making-history\Labb2\Labb2\main.asm Tue Apr 22 10:00:48 2025
 
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\avrasm\inc\m16adef.inc'
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\avrasm\inc\m16adef.inc'
@@ -873,6 +873,7 @@ AVRASM ver. 2.2.7  C:\Github\tsea82-making-history\Labb2\Labb2\main.asm Tue Apr 
                                  .equ T = 500			; Tone frequency constant
                                  .equ N = 100			; Morse Delay constant (frequency we send characters at)
                                  	
+                                 ;STR: .db "ABAB", 0
 000000 4144
 000001 4f54
 000002 5452
@@ -884,57 +885,57 @@ AVRASM ver. 2.2.7  C:\Github\tsea82-making-history\Labb2\Labb2\main.asm Tue Apr 
                                  ; BTAB – Morse binärkod för A–Z (0x41–0x5A)
                                  ; Index = ASCII - 0x41
                                  BTAB:
-C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(11): warning: .cseg .db misalignment - padding zero byte
-000006 0060                      	.db 0x60; A
 C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(12): warning: .cseg .db misalignment - padding zero byte
-000007 0088                      	.db 0x88; B
+000006 0060                      	.db 0x60; A
 C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(13): warning: .cseg .db misalignment - padding zero byte
-000008 00a8                      	.db 0xA8; C
+000007 0088                      	.db 0x88; B
 C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(14): warning: .cseg .db misalignment - padding zero byte
-000009 0090                      	.db 0x90; D
+000008 00a8                      	.db 0xA8; C
 C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(15): warning: .cseg .db misalignment - padding zero byte
-00000a 0040                      	.db 0x40; E
+000009 0090                      	.db 0x90; D
 C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(16): warning: .cseg .db misalignment - padding zero byte
-00000b 0028                      	.db 0x28; F
+00000a 0040                      	.db 0x40; E
 C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(17): warning: .cseg .db misalignment - padding zero byte
-00000c 00d0                      	.db 0xD0; G
+00000b 0028                      	.db 0x28; F
 C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(18): warning: .cseg .db misalignment - padding zero byte
-00000d 0010                      	.db 0x10; H
+00000c 00d0                      	.db 0xD0; G
 C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(19): warning: .cseg .db misalignment - padding zero byte
-00000e 0020                      	.db 0x20; I
+00000d 0010                      	.db 0x10; H
 C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(20): warning: .cseg .db misalignment - padding zero byte
-00000f 0078                      	.db 0x78; J
+00000e 0020                      	.db 0x20; I
 C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(21): warning: .cseg .db misalignment - padding zero byte
-000010 00b0                      	.db 0xB0; K
+00000f 0078                      	.db 0x78; J
 C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(22): warning: .cseg .db misalignment - padding zero byte
-000011 0048                      	.db 0x48; L
+000010 00b0                      	.db 0xB0; K
 C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(23): warning: .cseg .db misalignment - padding zero byte
-000012 00e0                      	.db 0xE0; M
+000011 0048                      	.db 0x48; L
 C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(24): warning: .cseg .db misalignment - padding zero byte
-000013 00a0                      	.db 0xA0; N
+000012 00e0                      	.db 0xE0; M
 C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(25): warning: .cseg .db misalignment - padding zero byte
-000014 00f0                      	.db 0xF0; O
+000013 00a0                      	.db 0xA0; N
 C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(26): warning: .cseg .db misalignment - padding zero byte
-000015 0068                      	.db 0x68; P
+000014 00f0                      	.db 0xF0; O
 C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(27): warning: .cseg .db misalignment - padding zero byte
-000016 00d8                      	.db 0xD8; Q
+000015 0068                      	.db 0x68; P
 C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(28): warning: .cseg .db misalignment - padding zero byte
-000017 0050                      	.db 0x50; R
+000016 00d8                      	.db 0xD8; Q
 C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(29): warning: .cseg .db misalignment - padding zero byte
-000018 0010                      	.db 0x10; S
+000017 0050                      	.db 0x50; R
 C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(30): warning: .cseg .db misalignment - padding zero byte
-000019 00c0                      	.db 0xC0; T
+000018 0010                      	.db 0x10; S
 C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(31): warning: .cseg .db misalignment - padding zero byte
-00001a 0030                      	.db 0x30; U
+000019 00c0                      	.db 0xC0; T
 C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(32): warning: .cseg .db misalignment - padding zero byte
-00001b 0018                      	.db 0x18; V
+00001a 0030                      	.db 0x30; U
 C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(33): warning: .cseg .db misalignment - padding zero byte
-00001c 0070                      	.db 0x70; W
+00001b 0018                      	.db 0x18; V
 C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(34): warning: .cseg .db misalignment - padding zero byte
-00001d 0098                      	.db 0x98; X
+00001c 0070                      	.db 0x70; W
 C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(35): warning: .cseg .db misalignment - padding zero byte
-00001e 00b8                      	.db 0xB8; Y
+00001d 0098                      	.db 0x98; X
 C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(36): warning: .cseg .db misalignment - padding zero byte
+00001e 00b8                      	.db 0xB8; Y
+C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(37): warning: .cseg .db misalignment - padding zero byte
 00001f 00c8                      	.db 0xC8; Z
                                  
                                  ;;;;;;;;;;;;;;;;;;;;;;;;;;;

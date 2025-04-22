@@ -2,8 +2,8 @@
 .equ T = 500			; Tone frequency constant
 .equ N = 100			; Morse Delay constant (frequency we send characters at)
 	
-STR: .db "ABAB", 0
-;STR: .db "DATORTEKNIK", 0
+;STR: .db "ABAB", 0
+STR: .db "DATORTEKNIK", 0
 ;STR: .db "AAAAAAAAA", 0
 
 ; BTAB – Morse binärkod för A–Z (0x41–0x5A)
