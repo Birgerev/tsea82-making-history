@@ -42,6 +42,10 @@ BTAB:
 
 ; Initialize hardware
 HW_INIT:
+	; PIN A - Ingång
+	ldi		r16,$FF			; $FF = 11111111
+	out		DDRA,r16		; hela PINA utgång
+
 	ret
 
 ; Huvudloop som sänder en hel sträng
