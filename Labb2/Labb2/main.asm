@@ -34,7 +34,6 @@ BTAB:
 	.db 0xB8; Y
 	.db 0xC8; Z
 
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;		START OF LOGIC	;;;
 ;;;		PROPERTY OF		;;;
@@ -47,7 +46,7 @@ HW_INIT:
 
 ; Huvudloop som sänder en hel sträng
 MORSE:
-	;TODO pusha alla register vi använder till stacken (inklusive Z etc)
+	; TODO pusha alla register vi använder till stacken (inklusive Z etc)
 	; De måste enl instruktionerna vara opåverkade (höhö som jag ;) )
 	; efter vi kört programmet	
 	push r16
@@ -57,7 +56,7 @@ MORSE:
 	ldi r30, low(STR << 1)	; Ladda ZL-pekare (för strängen)
 	ldi r30, high(STR << 1)	; Ladda ZH-pekare
 	
-	call GET_CHAR			; Get first character in string
+	call GET_CHAR		; Get first character in string
 	call BEEP_CHARS
 
 	;;TODO pop all regs
@@ -65,7 +64,7 @@ MORSE:
 	pop r30
 	pop r16
 
-	rjmp MORSE				; Loop again
+	rjmp MORSE			; Loop again
 
 ; Logic for sending one character
 ; Call 'GET_CHAR' first
@@ -74,7 +73,7 @@ BEEP_CHARS:
 	call LOOKUP			; Convert character to morse representation
 	; Binary Morse-representation will now be in r16
 
-	call SEND
+	call SEND_CHAR
 	call NOBEEP			; Silence over 2N
 	call NOBEEP
 
@@ -119,32 +118,26 @@ LOOKUP:
 	ret
 	
 ; Sends a character
-SEND:
-	call GET_BIT
-	;TODO while loop till there are no more bits for character
-	;if bit == 0
-	call BEEP			; 1N Beep, Morse '.'
-	;else
-	call BEEP3			; 1N Beep, Morse '-'
+; Character Morse representation in r16
+SEND_CHAR:
+	call SEND_BITS_LOOP
 
 	call NOBEEP			; 1N Silence, space between next character
-	call GET_BIT		; Get next bit to send
-
-; Get the next bit to send
-GET_BIT:
-	; TODO we bitshift the character byte
-	; Next bit is found in the carry flag
-
-	;When whole byte is 0 and carry flag is 1,
-	; we know character is done
+	
+SEND_BITS_LOOP:
+	lsl r16					; Bitshift character left
+	; Bit to send is now found in carry flag
+	call SEND_BIT
+	
+	cpi r16, $80				; Keep looping until r16 == 10000000 == $80
+	brne r16, SEND_BITS_LOOP	; as it marks end bit
+	
 	ret
 
-; Sends all bits for a character
-SEND_BITS
-	ret
-
-; Sends a "-" or "." and then waits
-BIT:
+; Uses carry flag 
+SEND_BIT:
+	brcc BEEP			; Branch to beep if carry is not set
+	brcs BEEP3			; Branch to long beep if carry is set
 	ret
 
 BEEP:
