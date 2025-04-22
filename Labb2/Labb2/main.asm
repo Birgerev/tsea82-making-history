@@ -1,9 +1,12 @@
 
 .equ T = 20			; Tone frequency constant
-.equ N = 20			; Morse Delay constant (frequency we send characters at)
+.equ N = 80			; Morse Delay constant (frequency we send characters at)
 	
-STR: .db "HEJ HÖPP", 0
+STR: .db "HEJ HOPP", 0
 ;STR: .db "DATORTEKNIK", 0
+
+;TODO space ger E
+;TODO H ger S
 
 ; BTAB – Morse binärkod för A–Z (0x41–0x5A)
 ; Index = ASCII - 0x41
@@ -16,7 +19,7 @@ BTAB:
 	.db 0x40; E
 	.db 0x28; F
 	.db 0xD0; G
-	.db 0x10; H
+	.db 0x08; H 
 	.db 0x20; I
 	.db 0x78; J
 	.db 0xB0; K
@@ -161,6 +164,7 @@ SEND_SPACE_BIT:
 	call NOBEEP3
 	call NOBEEP3
 	call NOBEEP
+	ret
 
 ; Uses carry flag 
 SEND_BIT:

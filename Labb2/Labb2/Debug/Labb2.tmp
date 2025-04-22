@@ -22,27 +22,27 @@
   <FILE>Labb2.lss</FILE>
  </OUTPUT_FILES>
  <LABELS>
-  <STR><FILE>C:\Github\tsea82-making-history\Labb2\Labb2\main.asm</FILE><LINE>5</LINE></STR>
-  <BTAB><FILE>C:\Github\tsea82-making-history\Labb2\Labb2\main.asm</FILE><LINE>11</LINE></BTAB>
-  <HW_INIT><FILE>C:\Github\tsea82-making-history\Labb2\Labb2\main.asm</FILE><LINE>46</LINE></HW_INIT>
-  <MORSE><FILE>C:\Github\tsea82-making-history\Labb2\Labb2\main.asm</FILE><LINE>51</LINE></MORSE>
-  <GET_CHAR><FILE>C:\Github\tsea82-making-history\Labb2\Labb2\main.asm</FILE><LINE>88</LINE></GET_CHAR>
-  <BEEP_CHARS><FILE>C:\Github\tsea82-making-history\Labb2\Labb2\main.asm</FILE><LINE>73</LINE></BEEP_CHARS>
-  <LOOKUP><FILE>C:\Github\tsea82-making-history\Labb2\Labb2\main.asm</FILE><LINE>95</LINE></LOOKUP>
-  <SEND_CHAR><FILE>C:\Github\tsea82-making-history\Labb2\Labb2\main.asm</FILE><LINE>137</LINE></SEND_CHAR>
-  <NOBEEP><FILE>C:\Github\tsea82-making-history\Labb2\Labb2\main.asm</FILE><LINE>193</LINE></NOBEEP>
-  <LOOKUP_INVALID><FILE>C:\Github\tsea82-making-history\Labb2\Labb2\main.asm</FILE><LINE>131</LINE></LOOKUP_INVALID>
-  <LOOKUP_DONE><FILE>C:\Github\tsea82-making-history\Labb2\Labb2\main.asm</FILE><LINE>125</LINE></LOOKUP_DONE>
-  <SEND_BITS_LOOP><FILE>C:\Github\tsea82-making-history\Labb2\Labb2\main.asm</FILE><LINE>143</LINE></SEND_BITS_LOOP>
-  <SEND_SPACE_BIT><FILE>C:\Github\tsea82-making-history\Labb2\Labb2\main.asm</FILE><LINE>159</LINE></SEND_SPACE_BIT>
-  <SEND_BIT><FILE>C:\Github\tsea82-making-history\Labb2\Labb2\main.asm</FILE><LINE>166</LINE></SEND_BIT>
-  <NOBEEP3><FILE>C:\Github\tsea82-making-history\Labb2\Labb2\main.asm</FILE><LINE>208</LINE></NOBEEP3>
-  <BEEP><FILE>C:\Github\tsea82-making-history\Labb2\Labb2\main.asm</FILE><LINE>171</LINE></BEEP>
-  <BEEP3><FILE>C:\Github\tsea82-making-history\Labb2\Labb2\main.asm</FILE><LINE>187</LINE></BEEP3>
-  <BEEPLOOP><FILE>C:\Github\tsea82-making-history\Labb2\Labb2\main.asm</FILE><LINE>174</LINE></BEEPLOOP>
-  <DELAY><FILE>C:\Github\tsea82-making-history\Labb2\Labb2\main.asm</FILE><LINE>222</LINE></DELAY>
-  <NOBEEPLOOP><FILE>C:\Github\tsea82-making-history\Labb2\Labb2\main.asm</FILE><LINE>196</LINE></NOBEEPLOOP>
-  <delayYttreLoop><FILE>C:\Github\tsea82-making-history\Labb2\Labb2\main.asm</FILE><LINE>226</LINE></delayYttreLoop>
-  <delayInreLoop><FILE>C:\Github\tsea82-making-history\Labb2\Labb2\main.asm</FILE><LINE>228</LINE></delayInreLoop>
+  <STR><FILE>C:\Github\tsea82-making-history\Labb2\Labb2\main.asm</FILE><LINE>6</LINE></STR>
+  <BTAB><FILE>C:\Github\tsea82-making-history\Labb2\Labb2\main.asm</FILE><LINE>15</LINE></BTAB>
+  <HW_INIT><FILE>C:\Github\tsea82-making-history\Labb2\Labb2\main.asm</FILE><LINE>50</LINE></HW_INIT>
+  <MORSE><FILE>C:\Github\tsea82-making-history\Labb2\Labb2\main.asm</FILE><LINE>55</LINE></MORSE>
+  <GET_CHAR><FILE>C:\Github\tsea82-making-history\Labb2\Labb2\main.asm</FILE><LINE>92</LINE></GET_CHAR>
+  <BEEP_CHARS><FILE>C:\Github\tsea82-making-history\Labb2\Labb2\main.asm</FILE><LINE>77</LINE></BEEP_CHARS>
+  <LOOKUP><FILE>C:\Github\tsea82-making-history\Labb2\Labb2\main.asm</FILE><LINE>99</LINE></LOOKUP>
+  <SEND_CHAR><FILE>C:\Github\tsea82-making-history\Labb2\Labb2\main.asm</FILE><LINE>141</LINE></SEND_CHAR>
+  <NOBEEP><FILE>C:\Github\tsea82-making-history\Labb2\Labb2\main.asm</FILE><LINE>198</LINE></NOBEEP>
+  <LOOKUP_INVALID><FILE>C:\Github\tsea82-making-history\Labb2\Labb2\main.asm</FILE><LINE>135</LINE></LOOKUP_INVALID>
+  <LOOKUP_DONE><FILE>C:\Github\tsea82-making-history\Labb2\Labb2\main.asm</FILE><LINE>129</LINE></LOOKUP_DONE>
+  <SEND_BITS_LOOP><FILE>C:\Github\tsea82-making-history\Labb2\Labb2\main.asm</FILE><LINE>147</LINE></SEND_BITS_LOOP>
+  <SEND_SPACE_BIT><FILE>C:\Github\tsea82-making-history\Labb2\Labb2\main.asm</FILE><LINE>163</LINE></SEND_SPACE_BIT>
+  <SEND_BIT><FILE>C:\Github\tsea82-making-history\Labb2\Labb2\main.asm</FILE><LINE>171</LINE></SEND_BIT>
+  <NOBEEP3><FILE>C:\Github\tsea82-making-history\Labb2\Labb2\main.asm</FILE><LINE>213</LINE></NOBEEP3>
+  <BEEP><FILE>C:\Github\tsea82-making-history\Labb2\Labb2\main.asm</FILE><LINE>176</LINE></BEEP>
+  <BEEP3><FILE>C:\Github\tsea82-making-history\Labb2\Labb2\main.asm</FILE><LINE>192</LINE></BEEP3>
+  <BEEPLOOP><FILE>C:\Github\tsea82-making-history\Labb2\Labb2\main.asm</FILE><LINE>179</LINE></BEEPLOOP>
+  <DELAY><FILE>C:\Github\tsea82-making-history\Labb2\Labb2\main.asm</FILE><LINE>227</LINE></DELAY>
+  <NOBEEPLOOP><FILE>C:\Github\tsea82-making-history\Labb2\Labb2\main.asm</FILE><LINE>201</LINE></NOBEEPLOOP>
+  <delayYttreLoop><FILE>C:\Github\tsea82-making-history\Labb2\Labb2\main.asm</FILE><LINE>231</LINE></delayYttreLoop>
+  <delayInreLoop><FILE>C:\Github\tsea82-making-history\Labb2\Labb2\main.asm</FILE><LINE>233</LINE></delayInreLoop>
  </LABELS>
 </ASSEMBLER_INFO>

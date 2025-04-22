@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.7  C:\Github\tsea82-making-history\Labb2\Labb2\main.asm Tue Apr 22 10:46:15 2025
+AVRASM ver. 2.2.7  C:\Github\tsea82-making-history\Labb2\Labb2\main.asm Tue Apr 22 11:12:25 2025
 
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\avrasm\inc\m16adef.inc'
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\avrasm\inc\m16adef.inc'
@@ -871,71 +871,75 @@ AVRASM ver. 2.2.7  C:\Github\tsea82-making-history\Labb2\Labb2\main.asm Tue Apr 
                                  
                                  
                                  .equ T = 20			; Tone frequency constant
-                                 .equ N = 20			; Morse Delay constant (frequency we send characters at)
+                                 .equ N = 80			; Morse Delay constant (frequency we send characters at)
                                  	
+                                 ;STR: .db "H", 0
 000000 4548
 000001 204a
-000002 d648
+000002 4f48
 000003 5050
-C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(5): warning: .cseg .db misalignment - padding zero byte
-000004 0000                      STR: .db "HEJ HÖPP", 0
+C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(6): warning: .cseg .db misalignment - padding zero byte
+000004 0000                      STR: .db "HEJ HOPP", 0
                                  ;STR: .db "DATORTEKNIK", 0
+                                 
+                                 ;TODO space ger E
+                                 ;TODO H ger S
                                  
                                  ; BTAB – Morse binärkod för A–Z (0x41–0x5A)
                                  ; Index = ASCII - 0x41
                                  .equ BTAB_INVALID = 27
                                  BTAB:
-C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(12): warning: .cseg .db misalignment - padding zero byte
-000005 0060                      	.db 0x60; A
-C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(13): warning: .cseg .db misalignment - padding zero byte
-000006 0088                      	.db 0x88; B
-C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(14): warning: .cseg .db misalignment - padding zero byte
-000007 00a8                      	.db 0xA8; C
-C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(15): warning: .cseg .db misalignment - padding zero byte
-000008 0090                      	.db 0x90; D
 C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(16): warning: .cseg .db misalignment - padding zero byte
-000009 0040                      	.db 0x40; E
+000005 0060                      	.db 0x60; A
 C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(17): warning: .cseg .db misalignment - padding zero byte
-00000a 0028                      	.db 0x28; F
+000006 0088                      	.db 0x88; B
 C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(18): warning: .cseg .db misalignment - padding zero byte
-00000b 00d0                      	.db 0xD0; G
+000007 00a8                      	.db 0xA8; C
 C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(19): warning: .cseg .db misalignment - padding zero byte
-00000c 0010                      	.db 0x10; H
+000008 0090                      	.db 0x90; D
 C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(20): warning: .cseg .db misalignment - padding zero byte
-00000d 0020                      	.db 0x20; I
+000009 0040                      	.db 0x40; E
 C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(21): warning: .cseg .db misalignment - padding zero byte
-00000e 0078                      	.db 0x78; J
+00000a 0028                      	.db 0x28; F
 C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(22): warning: .cseg .db misalignment - padding zero byte
-00000f 00b0                      	.db 0xB0; K
+00000b 00d0                      	.db 0xD0; G
 C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(23): warning: .cseg .db misalignment - padding zero byte
-000010 0048                      	.db 0x48; L
+00000c 0008                      	.db 0x08; H 
 C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(24): warning: .cseg .db misalignment - padding zero byte
-000011 00e0                      	.db 0xE0; M
+00000d 0020                      	.db 0x20; I
 C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(25): warning: .cseg .db misalignment - padding zero byte
-000012 00a0                      	.db 0xA0; N
+00000e 0078                      	.db 0x78; J
 C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(26): warning: .cseg .db misalignment - padding zero byte
-000013 00f0                      	.db 0xF0; O
+00000f 00b0                      	.db 0xB0; K
 C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(27): warning: .cseg .db misalignment - padding zero byte
-000014 0068                      	.db 0x68; P
+000010 0048                      	.db 0x48; L
 C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(28): warning: .cseg .db misalignment - padding zero byte
-000015 00d8                      	.db 0xD8; Q
+000011 00e0                      	.db 0xE0; M
 C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(29): warning: .cseg .db misalignment - padding zero byte
-000016 0050                      	.db 0x50; R
+000012 00a0                      	.db 0xA0; N
 C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(30): warning: .cseg .db misalignment - padding zero byte
-000017 0010                      	.db 0x10; S
+000013 00f0                      	.db 0xF0; O
 C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(31): warning: .cseg .db misalignment - padding zero byte
-000018 00c0                      	.db 0xC0; T
+000014 0068                      	.db 0x68; P
 C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(32): warning: .cseg .db misalignment - padding zero byte
-000019 0030                      	.db 0x30; U
+000015 00d8                      	.db 0xD8; Q
 C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(33): warning: .cseg .db misalignment - padding zero byte
-00001a 0018                      	.db 0x18; V
+000016 0050                      	.db 0x50; R
 C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(34): warning: .cseg .db misalignment - padding zero byte
-00001b 0070                      	.db 0x70; W
+000017 0010                      	.db 0x10; S
 C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(35): warning: .cseg .db misalignment - padding zero byte
-00001c 0098                      	.db 0x98; X
+000018 00c0                      	.db 0xC0; T
 C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(36): warning: .cseg .db misalignment - padding zero byte
-00001d 00b8                      	.db 0xB8; Y
+000019 0030                      	.db 0x30; U
 C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(37): warning: .cseg .db misalignment - padding zero byte
+00001a 0018                      	.db 0x18; V
+C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(38): warning: .cseg .db misalignment - padding zero byte
+00001b 0070                      	.db 0x70; W
+C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(39): warning: .cseg .db misalignment - padding zero byte
+00001c 0098                      	.db 0x98; X
+C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(40): warning: .cseg .db misalignment - padding zero byte
+00001d 00b8                      	.db 0xB8; Y
+C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(41): warning: .cseg .db misalignment - padding zero byte
 00001e 00c8                      	.db 0xC8; Z
                                  
                                  ;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -978,8 +982,8 @@ C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(37): warning: .cseg .db mis
                                  	; Binary Morse-representation will now be in r16
                                  
 00002f 940e 0050                 	call SEND_CHAR
-000031 940e 007c                 	call NOBEEP			; Silence over 2N
-000033 940e 007c                 	call NOBEEP
+000031 940e 007d                 	call NOBEEP			; Silence over 2N
+000033 940e 007d                 	call NOBEEP
                                  
 000035 940e 0039                 	CALL GET_CHAR		; Get next character in string
 000037 3000                      	cpi r16, 0			; Loop until no more chars (r16 == 0)
@@ -1039,11 +1043,11 @@ C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(37): warning: .cseg .db mis
                                  SEND_CHAR:
 000050 940e 0055                 	call SEND_BITS_LOOP
                                  
-000052 940e 007c                 	call NOBEEP			; 1N Silence, space between next character
+000052 940e 007d                 	call NOBEEP			; 1N Silence, space between next character
 000054 9508                      	ret
                                  	
                                  SEND_BITS_LOOP:
-000055 940e 007c                 	call NOBEEP
+000055 940e 007d                 	call NOBEEP
                                  
                                  	; Check if r16 is INVALID ($FF), then play space bit
 000057 3f0f                      	cpi r16, $FF
@@ -1051,7 +1055,7 @@ C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(37): warning: .cseg .db mis
                                  
 000059 0f00                      	lsl r16		 			; Bitshift character left
                                  	; Bit to send is now found in carry flag
-00005a 940e 0065                 	call SEND_BIT
+00005a 940e 0066                 	call SEND_BIT
                                  	
 00005c 3800                      	cpi r16, $80				; Keep looping until r16 == 10000000 == $80
 00005d f7b9                      	brne SEND_BITS_LOOP			; as it marks end bit
@@ -1060,58 +1064,59 @@ C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(37): warning: .cseg .db mis
                                  
                                  SEND_SPACE_BIT:
                                  	; Play silence for 7N
-00005f 940e 0088                 	call NOBEEP3
-000061 940e 0088                 	call NOBEEP3
-000063 940e 007c                 	call NOBEEP
+00005f 940e 0089                 	call NOBEEP3
+000061 940e 0089                 	call NOBEEP3
+000063 940e 007d                 	call NOBEEP
+000065 9508                      	ret
                                  
                                  ; Uses carry flag 
                                  SEND_BIT:
-000065 f410                      	brcc BEEP			; Branch to beep if carry is not set
-000066 f070                      	brcs BEEP3			; Branch to long beep if carry is set
-000067 9508                      	ret
+000066 f410                      	brcc BEEP			; Branch to beep if carry is not set
+000067 f070                      	brcs BEEP3			; Branch to long beep if carry is set
+000068 9508                      	ret
                                  
                                  BEEP:
-000068 932f                      	push r18
-000069 e124                      	ldi r18, N  ; Vi loopar N gånger
+000069 932f                      	push r18
+00006a e520                      	ldi r18, N  ; Vi loopar N gånger
                                  BEEPLOOP:
                                  	;Vi växlar mellan 1 och 0 med en frekvens på 500 hz
-00006a 98c7                      	cbi PORTB, 7; sätt utgången till 1
-00006b 940e 008f                 	call DELAY
-00006d 9ac7                      	sbi PORTB, 7; sättutgången till 0
-00006e 940e 008f                 	call DELAY
-000070 952a                      	dec r18 ; minskar loopen med et
+00006b 98c7                      	cbi PORTB, 7; sätt utgången till 1
+00006c 940e 0090                 	call DELAY
+00006e 9ac7                      	sbi PORTB, 7; sättutgången till 0
+00006f 940e 0090                 	call DELAY
+000071 952a                      	dec r18 ; minskar loopen med et
                                  
-000071 3020                      	cpi r18,$00		; Sluta loopa då r18 == $00
-000072 f7b9                      	brne BEEPLOOP	; om
-000073 912f                      	pop r18
-000074 9508                      	ret
+000072 3020                      	cpi r18,$00		; Sluta loopa då r18 == $00
+000073 f7b9                      	brne BEEPLOOP	; om
+000074 912f                      	pop r18
+000075 9508                      	ret
                                  
                                  BEEP3:
-000075 940e 0068                 	call BEEP
-000077 940e 0068                 	call BEEP
-000079 940e 0068                 	call BEEP
-00007b 9508                      	ret
+000076 940e 0069                 	call BEEP
+000078 940e 0069                 	call BEEP
+00007a 940e 0069                 	call BEEP
+00007c 9508                      	ret
                                  
                                  NOBEEP:
-00007c 932f                      	push r18
-00007d e124                      	ldi r18, N  ; Vi loopar N gånger
+00007d 932f                      	push r18
+00007e e520                      	ldi r18, N  ; Vi loopar N gånger
                                  NOBEEPLOOP:
-00007e 98c7                      	cbi PORTB, 7; sättutgången till 0
-00007f 940e 008f                 	call DELAY
-000081 940e 008f                 	call DELAY
+00007f 98c7                      	cbi PORTB, 7; sättutgången till 0
+000080 940e 0090                 	call DELAY
+000082 940e 0090                 	call DELAY
                                  	
-000083 952a                      	dec r18 ; minskar loopen med et
+000084 952a                      	dec r18 ; minskar loopen med et
                                  
-000084 3020                      	cpi r18,$00		; Sluta loopa då r18 == $00
-000085 f7c1                      	brne NOBEEPLOOP
-000086 912f                      	pop r18
-000087 9508                      	ret
+000085 3020                      	cpi r18,$00		; Sluta loopa då r18 == $00
+000086 f7c1                      	brne NOBEEPLOOP
+000087 912f                      	pop r18
+000088 9508                      	ret
                                  
                                  NOBEEP3:
-000088 940e 007c                 	call NOBEEP
-00008a 940e 007c                 	call NOBEEP
-00008c 940e 007c                 	call NOBEEP
-00008e 9508                      	ret
+000089 940e 007d                 	call NOBEEP
+00008b 940e 007d                 	call NOBEEP
+00008d 940e 007d                 	call NOBEEP
+00008f 9508                      	ret
                                  
                                  ; Rutinen DELAY är en vänteloop som samtidigt
                                  ; avger en skvallersignal på PB7.
@@ -1122,19 +1127,19 @@ C:\Github\tsea82-making-history\Labb2\Labb2\main.asm(37): warning: .cseg .db mis
                                  ;
                                  ; PORTB måste konfigureras separat.
                                  DELAY:
-00008f 933f                      	push	r19
-000090 931f                      	push	r17
-000091 e03a                      	ldi		r19,10		; Decimal bas
+000090 933f                      	push	r19
+000091 931f                      	push	r17
+000092 e03a                      	ldi		r19,10		; Decimal bas
                                  delayYttreLoop:
-000092 e11f                      	ldi		r17,$1F
+000093 e11f                      	ldi		r17,$1F
                                  delayInreLoop:
-000093 951a                      	dec		r17
-000094 f7f1                      	brne	delayInreLoop
-000095 953a                      	dec		r19
-000096 f7d9                      	brne	delayYttreLoop
-000097 911f                      	pop		r17
-000098 913f                      	pop		r19
-000099 9508                      	ret
+000094 951a                      	dec		r17
+000095 f7f1                      	brne	delayInreLoop
+000096 953a                      	dec		r19
+000097 f7d9                      	brne	delayYttreLoop
+000098 911f                      	pop		r17
+000099 913f                      	pop		r19
+00009a 9508                      	ret
 
 
 RESOURCE USE INFORMATION
@@ -1173,7 +1178,7 @@ fmulsu:   0 icall :   0 ijmp  :   0 in    :   0 inc   :   0 jmp   :   0
 ld    :   0 ldd   :   0 ldi   :   9 lds   :   0 lpm   :   3 lsl   :   2 
 lsr   :   0 mov   :   0 movw  :   0 mul   :   0 muls  :   0 mulsu :   0 
 neg   :   0 nop   :   0 or    :   0 ori   :   0 out   :   0 pop   :  10 
-push  :  10 rcall :   0 ret   :  10 reti  :   0 rjmp  :   2 rol   :   0 
+push  :  10 rcall :   0 ret   :  11 reti  :   0 rjmp  :   2 rol   :   0 
 ror   :   0 sbc   :   0 sbci  :   0 sbi   :   2 sbic  :   0 sbis  :   0 
 sbiw  :   0 sbr   :   0 sbrc  :   0 sbrs  :   0 sec   :   0 seh   :   0 
 sei   :   0 sen   :   0 ser   :   0 ses   :   0 set   :   0 sev   :   0 
@@ -1184,7 +1189,7 @@ Instructions used: 21 out of 113 (18.6%)
 "ATmega16A" memory use summary [bytes]:
 Segment   Begin    End      Code   Data   Used    Size   Use%
 ---------------------------------------------------------------
-[.cseg] 0x000000 0x000134    246     62    308   16384   1.9%
+[.cseg] 0x000000 0x000136    248     62    310   16384   1.9%
 [.dseg] 0x000060 0x000060      0      0      0    1024   0.0%
 [.eseg] 0x000000 0x000000      0      0      0     512   0.0%
 
