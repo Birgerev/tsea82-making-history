@@ -1,8 +1,9 @@
 
-.equ T, 0			; Tone frequency constant
-.equ N, 20			; Morse Delay constant (frequency we send characters at)
+.equ T = 500			; Tone frequency constant
+.equ N = 100			; Morse Delay constant (frequency we send characters at)
 	
-STR: .db "DATORTEKNIK", 0
+;STR: .db "DATORTEKNIK", 0
+STR: .db "AAAAAAAAA", 0
 
 ; BTAB – Morse binärkod för A–Z (0x41–0x5A)
 ; Index = ASCII - 0x41
@@ -43,27 +44,22 @@ BTAB:
 ; Initialize hardware
 HW_INIT:
 	; PIN A - Ingång
-	ldi		r16,$FF			; $FF = 11111111
-	out		DDRA,r16		; hela PINA utgång
-
-	ret
+	sbi DDRB, 7      ; sätter pin 7B som utgång
 
 ; Huvudloop som sänder en hel sträng
 MORSE:
-	; TODO pusha alla register vi använder till stacken (inklusive Z etc)
+	; pushar alla register vi använder till stacken (inklusive Z etc)
 	; De måste enl instruktionerna vara opåverkade (höhö som jag ;) )
 	; efter vi kört programmet	
 	push r16
 	push r30
 	push r31
-
 	ldi r30, low(STR << 1)	; Ladda ZL-pekare (för strängen)
 	ldi r30, high(STR << 1)	; Ladda ZH-pekare
 	
 	call GET_CHAR		; Get first character in string
 	call BEEP_CHARS
 
-	;;TODO pop all regs
 	pop r31
 	pop r30
 	pop r16
@@ -78,8 +74,8 @@ BEEP_CHARS:
 	; Binary Morse-representation will now be in r16
 
 	call SEND_CHAR
-	call NOBEEP			; Silence over 2N
-	call NOBEEP
+	call NOBEEP3			; Silence over 2N
+	call NOBEEP3
 
 	CALL GET_CHAR		; Get next character in string
 	cpi r16, 0			; Loop until no more chars (r16 == 0)
@@ -90,10 +86,6 @@ BEEP_CHARS:
 ; Next character byte is saved to r16
 GET_CHAR:
 	lpm r16, Z+			; Read character byte from Z-pointer, then increment pointer
-	ret
-
-; Sends morse character
-BEEP_CHARS:
 	ret
 
 ; Translates ASCII-character to binary
@@ -112,7 +104,7 @@ LOOKUP:
 
 	; Add r16 offset to Z-pointer
 	add r30, r16
-	adc r31, __zero_reg__	; Handle pointer carry overflow
+	;adc r31, __zero_reg__	; Handle pointer carry overflow
 
 	; Read Morse representation from BTAB
 	lpm r16, Z
@@ -129,12 +121,13 @@ SEND_CHAR:
 	call NOBEEP			; 1N Silence, space between next character
 	
 SEND_BITS_LOOP:
+	call NOBEEP
 	lsl r16					; Bitshift character left
 	; Bit to send is now found in carry flag
 	call SEND_BIT
 	
 	cpi r16, $80				; Keep looping until r16 == 10000000 == $80
-	brne r16, SEND_BITS_LOOP	; as it marks end bit
+	brne SEND_BITS_LOOP			; as it marks end bit
 	
 	ret
 
@@ -145,6 +138,19 @@ SEND_BIT:
 	ret
 
 BEEP:
+	push r18
+	ldi r18, N  ; Vi loopar N gånger
+BEEPLOOP:
+	;Vi växlar mellan 1 och 0 med en frekvens på 500 hz
+	cbi PORTB, 7; sätt utgången till 1
+	call DELAY
+	sbi PORTB, 7; sättutgången till 0
+	call DELAY
+	dec r18 ; minskar loopen med et
+
+	cpi r18,$00		; Sluta loopa då r18 == $00
+	brne BEEPLOOP	; om
+	pop r18
 	ret
 
 BEEP3:
@@ -154,6 +160,18 @@ BEEP3:
 	ret
 
 NOBEEP:
+	push r18
+	ldi r18, N  ; Vi loopar N gånger
+NOBEEPLOOP:
+	cbi PORTB, 7; sättutgången till 0
+	call DELAY
+	call DELAY
+	
+	dec r18 ; minskar loopen med et
+
+	cpi r18,$00		; Sluta loopa då r18 == $00
+	brne NOBEEPLOOP
+	pop r18
 	ret
 
 NOBEEP3:
@@ -171,14 +189,16 @@ NOBEEP3:
 ;
 ; PORTB måste konfigureras separat.
 DELAY:
-	sbi		PORTB,7
-	ldi		r16,10		; Decimal bas
+	push	r19
+	push	r17
+	ldi		r19,10		; Decimal bas
 delayYttreLoop:
 	ldi		r17,$1F
 delayInreLoop:
 	dec		r17
 	brne	delayInreLoop
-	dec		r16
+	dec		r19
 	brne	delayYttreLoop
-	cbi		PORTB,7
+	pop		r17
+	pop		r19
 	ret
