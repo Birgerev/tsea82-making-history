@@ -1,13 +1,13 @@
 
-.equ T = 500			; Tone frequency constant
-.equ N = 100			; Morse Delay constant (frequency we send characters at)
+.equ T = 20			; Tone frequency constant
+.equ N = 20			; Morse Delay constant (frequency we send characters at)
 	
-;STR: .db "ABAB", 0
-STR: .db "DATORTEKNIK", 0
-;STR: .db "AAAAAAAAA", 0
+STR: .db "HEJ HÖPP", 0
+;STR: .db "DATORTEKNIK", 0
 
 ; BTAB – Morse binärkod för A–Z (0x41–0x5A)
 ; Index = ASCII - 0x41
+.equ BTAB_INVALID = 27
 BTAB:
 	.db 0x60; A
 	.db 0x88; B
@@ -93,11 +93,19 @@ GET_CHAR:
 ; Character in r16
 ; Output morse representation in r16
 LOOKUP:
+	push r1
 	push r30			; Store Z-pointer on stack
 	push r31
 	
 	; Subtrahera ASCII-kod för första bokstaven 'A' ($41)
 	subi r16, 'A'		; r16 = index i BTAB
+
+	;Branch to INVALID if r16 is < 0 (maybe space character?)
+	cpi r16, 0
+	brlt LOOKUP_INVALID
+	;Branch to INVALID if r16 is >= 27 (invalid character)
+	cpi r16, BTAB_INVALID
+	brsh LOOKUP_INVALID
 
 	; Ladda addressen till BTAB i Z-pointer
 	ldi r30, low(BTAB << 1)
@@ -113,10 +121,16 @@ LOOKUP:
 
 	; Read Morse representation from BTAB
 	lpm r16, Z
-	
+
+LOOKUP_DONE:	
 	pop r31
 	pop r30 
+	pop r1
 	ret
+
+LOOKUP_INVALID:
+	ldi r16, $FF
+	rjmp LOOKUP_DONE
 	
 ; Sends a character
 ; Character Morse representation in r16
@@ -128,6 +142,11 @@ SEND_CHAR:
 	
 SEND_BITS_LOOP:
 	call NOBEEP
+
+	; Check if r16 is INVALID ($FF), then play space bit
+	cpi r16, $FF
+	breq SEND_SPACE_BIT
+
 	lsl r16		 			; Bitshift character left
 	; Bit to send is now found in carry flag
 	call SEND_BIT
@@ -136,6 +155,12 @@ SEND_BITS_LOOP:
 	brne SEND_BITS_LOOP			; as it marks end bit
 	
 	ret
+
+SEND_SPACE_BIT:
+	; Play silence for 7N
+	call NOBEEP3
+	call NOBEEP3
+	call NOBEEP
 
 ; Uses carry flag 
 SEND_BIT:
