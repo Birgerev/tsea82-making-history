@@ -2,8 +2,9 @@
 .equ T = 500			; Tone frequency constant
 .equ N = 100			; Morse Delay constant (frequency we send characters at)
 	
+STR: .db "ABAB", 0
 ;STR: .db "DATORTEKNIK", 0
-STR: .db "AAAAAAAAA", 0
+;STR: .db "AAAAAAAAA", 0
 
 ; BTAB – Morse binärkod för A–Z (0x41–0x5A)
 ; Index = ASCII - 0x41
@@ -54,8 +55,9 @@ MORSE:
 	push r16
 	push r30
 	push r31
+
 	ldi r30, low(STR << 1)	; Ladda ZL-pekare (för strängen)
-	ldi r30, high(STR << 1)	; Ladda ZH-pekare
+	ldi r31, high(STR << 1)	; Ladda ZH-pekare
 	
 	call GET_CHAR		; Get first character in string
 	call BEEP_CHARS
@@ -74,13 +76,12 @@ BEEP_CHARS:
 	; Binary Morse-representation will now be in r16
 
 	call SEND_CHAR
-	call NOBEEP3			; Silence over 2N
-	call NOBEEP3
+	call NOBEEP			; Silence over 2N
+	call NOBEEP
 
 	CALL GET_CHAR		; Get next character in string
 	cpi r16, 0			; Loop until no more chars (r16 == 0)
 	brne BEEP_CHARS
-	ret					; Return to MORSE routine
 
 ; Get next ASCII-character from string
 ; Next character byte is saved to r16
@@ -102,8 +103,13 @@ LOOKUP:
 	ldi r30, low(BTAB << 1)
 	ldi r31, high(BTAB << 1)
 
+    ; convert index to a byte?offset in FLASH (each entry is 2 bytes)
+    lsl  r16            ; r16 = r16 * 2
+
 	; Add r16 offset to Z-pointer
+	clr r1
 	add r30, r16
+	add r31, r1
 	;adc r31, __zero_reg__	; Handle pointer carry overflow
 
 	; Read Morse representation from BTAB
@@ -119,6 +125,7 @@ SEND_CHAR:
 	call SEND_BITS_LOOP
 
 	call NOBEEP			; 1N Silence, space between next character
+	ret
 	
 SEND_BITS_LOOP:
 	call NOBEEP
