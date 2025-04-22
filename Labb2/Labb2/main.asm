@@ -103,14 +103,13 @@ LOOKUP:
 	ldi r30, low(BTAB << 1)
 	ldi r31, high(BTAB << 1)
 
-    ; convert index to a byte?offset in FLASH (each entry is 2 bytes)
+    ; Varje steg i BTAB är egentligen 2 steg, därav multiplicera offset med 2
     lsl  r16            ; r16 = r16 * 2
 
 	; Add r16 offset to Z-pointer
 	clr r1
 	add r30, r16
 	add r31, r1
-	;adc r31, __zero_reg__	; Handle pointer carry overflow
 
 	; Read Morse representation from BTAB
 	lpm r16, Z
@@ -129,7 +128,7 @@ SEND_CHAR:
 	
 SEND_BITS_LOOP:
 	call NOBEEP
-	lsl r16					; Bitshift character left
+	lsl r16		 			; Bitshift character left
 	; Bit to send is now found in carry flag
 	call SEND_BIT
 	
