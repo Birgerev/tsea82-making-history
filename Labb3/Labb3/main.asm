@@ -28,7 +28,7 @@
 .equ TIME3 = 0x0103
 
 ;Tabell för BCD-kod till avkodad för displayen
-7SEG_TABLE:
+SEG_TABLE:
 	.db 0b01111111 ;0 
 	.db 0b00001101 ;1
 	.db 0b10110111 ;2
@@ -58,6 +58,7 @@ MAIN:
 	out DDRB, r16
 
 	sei			;Aktivera avbrott (i-flaggan måste vara 1)
+
 
 MAIN_LOOP:
 	jmp MAIN_LOOP
@@ -116,7 +117,7 @@ MULTIPLEX_DISPLAY:
 	call UPDATE_ACTIVE_DISPLAY
 
 	;Get 7-seg representation of number in r18 display
-	call 7SEG_LOOKUP
+	call SEG_LOOKUP
 	;Output 7-seg to current active display
 	call UPDATE_7SEG
 
@@ -133,13 +134,13 @@ UPDATE_ACTIVE_DISPLAY:
 
 ;Uses r18 to lookup 7-seg representation of number
 ;7-seg output => r16
-7SEG_LOOKUP:
+SEG_LOOKUP:
 	;We use r16 as offset
 	mov r16, r18
 
 	; Ladda addressen till Lookup table i Z-pointer
-	ldi r30, low(7SEG_TABLE << 1)
-	ldi r31, high(7SEG_TABLE << 1)
+	ldi r30, low(SEG_TABLE << 1)
+	ldi r31, high(SEG_TABLE << 1)
 	
     ; Varje steg i Lookup är egentligen 2 steg, därav multiplicera offset med 2
     lsl  r16    ; r16 *= 2

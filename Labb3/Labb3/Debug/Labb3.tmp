@@ -22,10 +22,16 @@
   <FILE>Labb3.lss</FILE>
  </OUTPUT_FILES>
  <LABELS>
-  <MAIN><FILE>C:\Github\tsea82-making-history\Labb3\Labb3\main.asm</FILE><LINE>19</LINE></MAIN>
-  <EXT_INT0><FILE>C:\Github\tsea82-making-history\Labb3\Labb3\main.asm</FILE><LINE>51</LINE></EXT_INT0>
-  <EXT_INT1><FILE>C:\Github\tsea82-making-history\Labb3\Labb3\main.asm</FILE><LINE>56</LINE></EXT_INT1>
-  <INIT_INT0><FILE>C:\Github\tsea82-making-history\Labb3\Labb3\main.asm</FILE><LINE>32</LINE></INIT_INT0>
-  <INIT_INT1><FILE>C:\Github\tsea82-making-history\Labb3\Labb3\main.asm</FILE><LINE>41</LINE></INIT_INT1>
+  <MAIN><FILE>C:\Github\tsea82-making-history\Labb3\Labb3\main.asm</FILE><LINE>44</LINE></MAIN>
+  <EXT_INT0><FILE>C:\Github\tsea82-making-history\Labb3\Labb3\main.asm</FILE><LINE>96</LINE></EXT_INT0>
+  <EXT_INT1><FILE>C:\Github\tsea82-making-history\Labb3\Labb3\main.asm</FILE><LINE>119</LINE></EXT_INT1>
+  <SEG_TABLE><FILE>C:\Github\tsea82-making-history\Labb3\Labb3\main.asm</FILE><LINE>31</LINE></SEG_TABLE>
+  <INIT_INT0><FILE>C:\Github\tsea82-making-history\Labb3\Labb3\main.asm</FILE><LINE>77</LINE></INIT_INT0>
+  <INIT_INT1><FILE>C:\Github\tsea82-making-history\Labb3\Labb3\main.asm</FILE><LINE>86</LINE></INIT_INT1>
+  <MAIN_LOOP><FILE>C:\Github\tsea82-making-history\Labb3\Labb3\main.asm</FILE><LINE>73</LINE></MAIN_LOOP>
+  <MULTIPLEX_DISPLAY><FILE>C:\Github\tsea82-making-history\Labb3\Labb3\main.asm</FILE><LINE>123</LINE></MULTIPLEX_DISPLAY>
+  <UPDATE_ACTIVE_DISPLAY><FILE>C:\Github\tsea82-making-history\Labb3\Labb3\main.asm</FILE><LINE>141</LINE></UPDATE_ACTIVE_DISPLAY>
+  <SEG_LOOKUP><FILE>C:\Github\tsea82-making-history\Labb3\Labb3\main.asm</FILE><LINE>147</LINE></SEG_LOOKUP>
+  <UPDATE_7SEG><FILE>C:\Github\tsea82-making-history\Labb3\Labb3\main.asm</FILE><LINE>168</LINE></UPDATE_7SEG>
  </LABELS>
 </ASSEMBLER_INFO>
