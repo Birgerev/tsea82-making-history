@@ -112,15 +112,23 @@ EXT_INT1:
 MULTIPLEX_DISPLAY:
 	;r18 - current active display (0 - 3)
 	
-	;TODO Time + offset (current display)
-	lds r17, TIME
+	;use r18 to update active display
+	call UPDATE_ACTIVE_DISPLAY
 
-	;
+	;Get 7-seg representation of number in r18 display
 	call 7SEG_LOOKUP
+	;Output 7-seg to current active display
 	call UPDATE_7SEG
 
-	;TODO increment display index
+	inc r18			;Increment active display
+	andi r18, 3		;Mask out only bit 0 & 1, 
+					;so it loops back to 0 after 3
+					;3 = 00000011
 
+	ret
+
+UPDATE_ACTIVE_DISPLAY:
+	out		PORTB,r18	; skriv ut aktiv display på PORT-B
 	ret
 
 ;Uses r18 to lookup 7-seg representation of number
