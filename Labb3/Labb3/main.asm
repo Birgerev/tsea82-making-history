@@ -7,6 +7,11 @@
 ;; BB & SS		  ;;
 ;;;;;;;;;;;;;;;;;;;;
 
+
+;;;;REGISTER 18 tillhör turkiska räven, 
+;ingen rör register 18, r18 är mitt område
+;Jag kommer knulla dig topp till tå bror
+
 .include "m16adef.inc"
 
 	.org $0000
