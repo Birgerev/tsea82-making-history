@@ -22,8 +22,10 @@
   <FILE>Labb3.lss</FILE>
  </OUTPUT_FILES>
  <LABELS>
-  <RESET><FILE>C:\Github\tsea82-making-history\Labb3\Labb3\main.asm</FILE><LINE>22</LINE></RESET>
-  <INT0_ISR><FILE>C:\Github\tsea82-making-history\Labb3\Labb3\main.asm</FILE><LINE>33</LINE></INT0_ISR>
-  <INT1_ISR><FILE>C:\Github\tsea82-making-history\Labb3\Labb3\main.asm</FILE><LINE>43</LINE></INT1_ISR>
+  <MAIN><FILE>C:\Github\tsea82-making-history\Labb3\Labb3\main.asm</FILE><LINE>19</LINE></MAIN>
+  <EXT_INT0><FILE>C:\Github\tsea82-making-history\Labb3\Labb3\main.asm</FILE><LINE>51</LINE></EXT_INT0>
+  <EXT_INT1><FILE>C:\Github\tsea82-making-history\Labb3\Labb3\main.asm</FILE><LINE>56</LINE></EXT_INT1>
+  <INIT_INT0><FILE>C:\Github\tsea82-making-history\Labb3\Labb3\main.asm</FILE><LINE>32</LINE></INIT_INT0>
+  <INIT_INT1><FILE>C:\Github\tsea82-making-history\Labb3\Labb3\main.asm</FILE><LINE>41</LINE></INIT_INT1>
  </LABELS>
 </ASSEMBLER_INFO>
