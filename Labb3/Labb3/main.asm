@@ -88,10 +88,17 @@ EXT_INT0:
 	push r17
 
 	clr r16 ;används senare för carry
-	lds r16, TIME ;ladda värdet från minnet
-	inc r16
-	sts TIME, 16
-	;TODO fixa carry!!! 
+
+	;entalsekunder
+	lds r17, TIME ;ladda värdet från minnet
+	inc r17
+	cpi r17, 0x0A ; jämför med tio
+	brlo no_carry_sec1  ; (branch if lower)
+	clr r17  ;nollställ om det var carry
+	sts TIME, 17
+
+	;tiotal sekunder
+	lds r17, TIME1  ;TIME1 är andra minnescellen i time
 	
 	pop r17
 	pop r16
@@ -124,6 +131,22 @@ MULTIPLEX_DISPLAY:
 ;Uses r18 to lookup 7-seg representation of number
 ;7-seg output => r16
 7_SEG_LOOKUP:
+	
+
+	; Ladda addressen till Lookup table i Z-pointer
+	ldi r30, low(BTAB << 1)
+	ldi r31, high(BTAB << 1)
+	
+    ; Varje steg i Lookup är egentligen 2 steg, därav multiplicera offset med 2
+    lsl  r16            ; r16 = r16 * 2
+
+	; Add r16 offset to Z-pointer
+	clr r1
+	add r30, r16
+	add r31, r1
+
+	; Read 7-seg representation from Lookup
+	lpm r16, Z
 	
 	ret
 
