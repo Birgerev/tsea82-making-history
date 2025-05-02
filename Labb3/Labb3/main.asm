@@ -28,7 +28,7 @@
 .equ TIME3 = 0x0103
 
 ;Tabell för BCD-kod till avkodad för displayen
-BCD_TO_DISPLAY:
+7SEG_TABLE:
 	.db 0b01111111 ;0 
 	.db 0b00001101 ;1
 	.db 0b10110111 ;2
@@ -109,45 +109,40 @@ EXT_INT1:
 	call MULTIPLEX_DISPLAY
 	reti
 
-
 MULTIPLEX_DISPLAY:
-	;TODO count which display we are on, index 0 - 3
-	
 	;r18 - current active display (0 - 3)
 	
 	;TODO Time + offset (current display)
 	lds r17, TIME
 
-	call 7_SEG_LOOKUP
+	;
+	call 7SEG_LOOKUP
 	call UPDATE_7SEG
-	;TODO load number from 0x0100, and 
-	;use offset to add to address and get right number
 
-
-	;TODO increment display
+	;TODO increment display index
 
 	ret
 
 ;Uses r18 to lookup 7-seg representation of number
 ;7-seg output => r16
-7_SEG_LOOKUP:
-	
+7SEG_LOOKUP:
+	;We use r16 as offset
+	mov r16, r18
 
 	; Ladda addressen till Lookup table i Z-pointer
-	ldi r30, low(BTAB << 1)
-	ldi r31, high(BTAB << 1)
+	ldi r30, low(7SEG_TABLE << 1)
+	ldi r31, high(7SEG_TABLE << 1)
 	
     ; Varje steg i Lookup är egentligen 2 steg, därav multiplicera offset med 2
-    lsl  r16            ; r16 = r16 * 2
+    lsl  r16    ; r16 *= 2
 
 	; Add r16 offset to Z-pointer
 	clr r1
 	add r30, r16
-	add r31, r1
+	add r31, r1	;r1 should be carry
 
-	; Read 7-seg representation from Lookup
+	; Read 7-seg representation from Lookup into r16
 	lpm r16, Z
-	
 	ret
 
 ;Update 7-seg values A - F, r16 is number in 7-seg format
