@@ -8,8 +8,8 @@
 ;;;;;;;;;;;;;;;;;;;;
 
 
-;;;;REGISTER 18 tillhör turkiska räven, 
-;ingen rör register 18, r18 är mitt område
+;;;;REGISTER 18 tillhor turkiska raven, 
+;ingen ror register 18, r18 ar mitt omrade
 ;Jag kommer knulla dig topp till tå bror
 
 .include "m16adef.inc"
