@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.7  C:\Github\tsea82-making-history\Labb3\Labb3\main.asm Mon May 05 14:00:47 2025
+AVRASM ver. 2.2.7  C:\Github\tsea82-making-history\Labb3\Labb3\main.asm Mon May 05 14:21:30 2025
 
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\avrasm\inc\m16adef.inc'
 C:\Github\tsea82-making-history\Labb3\Labb3\main.asm(15): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\avrasm\inc\m16adef.inc'
@@ -933,9 +933,9 @@ C:\Github\tsea82-making-history\Labb3\Labb3\main.asm(15): Including file 'C:/Pro
                                  	.org $0000
 000000 940c 0010                 	jmp		MAIN   ;startar i main
                                  	.org 0x0002   ;Addressen för INT0
-000002 940c 002e                 	jmp		EXT_INT0
+000002 940c 002a                 	jmp		EXT_INT0
                                  	.org 0x0004	  ;Addressen för INT1
-000004 940c 0061                 	jmp		EXT_INT1
+000004 940c 0059                 	jmp		EXT_INT1
                                  
                                  ;Time is stored in 4 memory cells starting at address TIME
                                  .equ TIME = 0x0100
@@ -977,15 +977,15 @@ C:\Github\tsea82-making-history\Labb3\Labb3\main.asm(42): warning: .cseg .db mis
                                  
                                  	;Initiera avbrott
 000014 940e 0020                 	call INIT_INT0
-000016 940e 0027                 	call INIT_INT1
+000016 940e 0025                 	call INIT_INT1
                                  
                                  	;Prepare PIN A & B as output
-000018 e000                      	ldi r16, $00
+000018 ef0f                      	ldi r16, $FF
 000019 bb0a                      	out DDRA, r16
 00001a bb07                      	out DDRB, r16
                                  
                                  	;Prepare PIN D as input (for INT0 & INT1)
-00001b ef0f                      	ldi r16, $FF
+00001b e000                      	ldi r16, $00
 00001c bb01                      	out DDRD, r16
                                  
 00001d 9478                      	sei			;Aktivera avbrott (i-flaggan måste vara 1)
@@ -1006,120 +1006,138 @@ C:\Github\tsea82-making-history\Labb3\Labb3\main.asm(42): warning: .cseg .db mis
                                  	;TODO infinite loop
                                  	
                                  INIT_INT0:
+                                 
                                  	;Aktivera avbrott på INT0, (INT0 är konstant)
 000020 e400                      	ldi r16,(1 << INT0)
-000021 9300 003b                 	sts	GICR, r16 ;(MCUSR = registret för externa avbrott
+000021 bf0b                      	out	GICR, r16 ;(MCUSR = registret för externa avbrott
                                  	;Sätter rising edge m.h.a gicra register
-000023 e003                      	ldi r16,(1<<ISC01)|(1<<ISC00)
-000024 9300 0034                 	sts MCUSR, r16
-000026 9508                      	ret
+000022 e003                      	ldi r16,(1<<ISC01)|(1<<ISC00)
+000023 bf05                      	out MCUCR, r16
+                                 	
+000024 9508                      	ret
                                  
                                  INIT_INT1:
+                                 	;Sätter rising edge m.h.a eicra register
+000025 e004                      	ldi r16,(0<<ISC11)|(1<<ISC10)
+000026 bf05                      	out MCUCR, r16
+                                 	
                                  	;Aktivera avbrott på INT1
 000027 e800                      	ldi r16,(1 << INT1)
-000028 9300 003b                 	sts	GICR, r16 ;(EIMSK = registret för externa avbrott
-                                 	;Sätter rising edge m.h.a eicra register
-00002a e004                      	ldi r16,(0<<ISC11)|(1<<ISC10)
-00002b 9300 0034                 	sts MCUSR, r16
-00002d 9508                      	ret
+000028 bf0b                      	out	GICR, r16 ;(EIMSK = registret för externa avbrott
+                                 
+000029 9508                      	ret
                                  	
                                  EXT_INT0:
-                                 	;TESTING INTERUPTS
-00002e ef0f                      	ldi r16, $FF
-00002f 940e 0082                 	call UPDATE_7SEG
-000031 9518                      	reti
-                                 
                                  	;increase BCD COUNT
-000032 931f                      	push r17
+00002a 931f                      	push r17
                                  	
                                  	;entalsekunder
-000033 9110 0100                 	lds r17, TIME ;ladda värdet från minnet
-000035 9513                      	inc r17
-000036 301a                      	cpi r17, 0x0A ; jämför med tio
-000037 f0e8                      	brlo NO_CARRY_SEC1  ; (branch if lower)
-000038 2711                      	clr r17  ;nollställ om det var carry
-000039 9310 0100                 	sts TIME, r17
+00002b 9110 0100                 	lds r17, TIME ;ladda värdet från minnet
+00002d 9513                      	inc r17
+00002e 301a                      	cpi r17, 0x0A ; jämför med tio
+00002f f0e8                      	brlo NO_CARRY_SEC1  ; (branch if lower)
+000030 2711                      	clr r17  ;nollställ om det var carry
+000031 9310 0100                 	sts TIME, r17
                                  
                                  	;tiotal sekunder
-00003b 9110 0101                 	lds r17, TIME1  ;TIME1 är andra minnescellen i time
-00003d 9513                      	inc r17
-00003e 3016                      	cpi r17, 0x06
-00003f f0c0                      	brlo NO_CARRY_SEC10
-000040 2711                      	clr r17
-000041 9310 0101                 	sts TIME1, r17
+000033 9110 0101                 	lds r17, TIME1  ;TIME1 är andra minnescellen i time
+000035 9513                      	inc r17
+000036 3016                      	cpi r17, 0x06
+000037 f0c0                      	brlo NO_CARRY_SEC10
+000038 2711                      	clr r17
+000039 9310 0101                 	sts TIME1, r17
                                  	
                                  	;ental minut
-000043 9110 0102                 	lds r17, TIME2 ;ladda värdet från minnet
-000045 9513                      	inc r17
-000046 301a                      	cpi r17, 0x0A ; jämför med tio
-000047 f098                      	brlo NO_CARRY_MIN1  ; (branch if lower)
-000048 2711                      	clr r17  ;nollställ om det var carry
-000049 9310 0102                 	sts TIME2, r17
+00003b 9110 0102                 	lds r17, TIME2 ;ladda värdet från minnet
+00003d 9513                      	inc r17
+00003e 301a                      	cpi r17, 0x0A ; jämför med tio
+00003f f098                      	brlo NO_CARRY_MIN1  ; (branch if lower)
+000040 2711                      	clr r17  ;nollställ om det var carry
+000041 9310 0102                 	sts TIME2, r17
                                  
                                  	;tiotal minuter
-00004b 9110 0103                 	lds r17, TIME3  ;TIME1 är andra minnescellen i time
-00004d 9513                      	inc r17
-00004e 3016                      	cpi r17, 0x06
-00004f f070                      	brlo NO_CARRY_MIN10
-000050 2711                      	clr r17
-000051 9310 0101                 	sts TIME1, r17
+000043 9110 0103                 	lds r17, TIME3  ;TIME1 är andra minnescellen i time
+000045 9513                      	inc r17
+000046 3016                      	cpi r17, 0x06
+000047 f070                      	brlo NO_CARRY_MIN10
+000048 2711                      	clr r17
+000049 9310 0101                 	sts TIME1, r17
                                  
                                  END_OF_EXT_INT0:
-000053 911f                      	pop r17
-000054 9518                      	reti
+00004b 911f                      	pop r17
+00004c 9518                      	reti
                                  
                                  NO_CARRY_SEC1:
-000055 9310 0100                 	sts TIME, r17
-000057 cffb                      	rjmp END_OF_EXT_INT0
+00004d 9310 0100                 	sts TIME, r17
+00004f cffb                      	rjmp END_OF_EXT_INT0
                                  
                                  NO_CARRY_SEC10:
-000058 9310 0101                 	sts TIME1, r17
-00005a cff8                      	rjmp END_OF_EXT_INT0
+000050 9310 0101                 	sts TIME1, r17
+000052 cff8                      	rjmp END_OF_EXT_INT0
                                  
                                  NO_CARRY_MIN1:
-00005b 9310 0102                 	sts TIME2, r17
-00005d cff5                      	rjmp END_OF_EXT_INT0
+000053 9310 0102                 	sts TIME2, r17
+000055 cff5                      	rjmp END_OF_EXT_INT0
                                  
                                  NO_CARRY_MIN10:
-00005e 9310 0103                 	sts TIME3, r17
-000060 cff2                      	rjmp END_OF_EXT_INT0
+000056 9310 0103                 	sts TIME3, r17
+000058 cff2                      	rjmp END_OF_EXT_INT0
                                  
                                  EXT_INT1:
-000061 940e 0064                 	call MULTIPLEX_DISPLAY
-000063 9518                      	reti
+000059 940e 005c                 	call MULTIPLEX_DISPLAY
+00005b 9518                      	reti
                                  
                                  MULTIPLEX_DISPLAY:
                                  	;r18 - current active display (0 - 3)
                                  	
                                  	;use r18 to update active display
-000064 940e 006f                 	call UPDATE_ACTIVE_DISPLAY
+00005c 940e 0067                 	call UPDATE_ACTIVE_DISPLAY
                                  
-000066 940e 0071                 	call READ_DISPLAY_NUMBER
+00005e 940e 0069                 	call READ_DISPLAY_NUMBER
                                  	;Get 7-seg representation of number in r18 display
-000068 940e 007a                 	call SEG_LOOKUP
+000060 940e 0072                 	call SEG_LOOKUP
                                  	;Output 7-seg to current active display
-00006a 940e 0082                 	call UPDATE_7SEG
+000062 940e 007a                 	call UPDATE_7SEG
                                  
-00006c 9523                      	inc r18			;Increment active display
-00006d 7023                      	andi r18, 3		;Mask out only bit 0 & 1, 
+000064 9523                      	inc r18			;Increment active display
+000065 7023                      	andi r18, 3		;Mask out only bit 0 & 1, 
                                  					;so it loops back to 0 after 3
                                  					;3 = 00000011
                                  
-00006e 9508                      	ret
+000066 9508                      	ret
                                  
                                  UPDATE_ACTIVE_DISPLAY:
-00006f bb28                      	out		PORTB,r18	; skriv ut aktiv display på PORT-B
-000070 9508                      	ret
+000067 bb28                      	out		PORTB,r18	; skriv ut aktiv display på PORT-B
+000068 9508                      	ret
                                  
                                  ;Uses r18 to read number for active display
                                  ;Output => r16
                                  READ_DISPLAY_NUMBER:
                                  	;We use r16 as offset
-000071 2f02                      	mov r16, r18
+000069 2f02                      	mov r16, r18
                                  	
                                  	; Ladda addressen till Lookup table i Z-pointer
-000072 e0e0                      	ldi r30, low(TIME)
-000073 e0f1                      	ldi r31, high(TIME)
+00006a e0e0                      	ldi r30, low(TIME)
+00006b e0f1                      	ldi r31, high(TIME)
+                                 	
+                                     ; Varje steg i Lookup är egentligen 2 steg, därav multiplicera offset med 2
+00006c 0f00                          lsl  r16    ; r16 *= 2
+                                 
+                                 	; Add r16 offset to Z-pointer
+00006d 2411                      	clr r1
+00006e 0fe0                      	add r30, r16
+00006f 0df1                      	add r31, r1	;r1 should be carry
+                                 
+                                 	; Read number for active display into r16
+000070 8100                      	ld r16, Z
+000071 9508                      	ret
+                                 
+                                 ;Uses r16 to lookup 7-seg representation of number
+                                 ;7-seg output => r16
+                                 SEG_LOOKUP:
+                                 	; Ladda addressen till Lookup table i Z-pointer
+000072 e0ec                      	ldi r30, low(SEG_TABLE << 1)
+000073 e0f0                      	ldi r31, high(SEG_TABLE << 1)
                                  	
                                      ; Varje steg i Lookup är egentligen 2 steg, därav multiplicera offset med 2
 000074 0f00                          lsl  r16    ; r16 *= 2
@@ -1129,32 +1147,13 @@ C:\Github\tsea82-making-history\Labb3\Labb3\main.asm(42): warning: .cseg .db mis
 000076 0fe0                      	add r30, r16
 000077 0df1                      	add r31, r1	;r1 should be carry
                                  
-                                 	; Read number for active display into r16
-000078 8100                      	ld r16, Z
-000079 9508                      	ret
-                                 
-                                 ;Uses r16 to lookup 7-seg representation of number
-                                 ;7-seg output => r16
-                                 SEG_LOOKUP:
-                                 	; Ladda addressen till Lookup table i Z-pointer
-00007a e0ec                      	ldi r30, low(SEG_TABLE << 1)
-00007b e0f0                      	ldi r31, high(SEG_TABLE << 1)
-                                 	
-                                     ; Varje steg i Lookup är egentligen 2 steg, därav multiplicera offset med 2
-00007c 0f00                          lsl  r16    ; r16 *= 2
-                                 
-                                 	; Add r16 offset to Z-pointer
-00007d 2411                      	clr r1
-00007e 0fe0                      	add r30, r16
-00007f 0df1                      	add r31, r1	;r1 should be carry
-                                 
                                  	; Read 7-seg representation from Lookup into r16
-000080 9104                      	lpm r16, Z
-000081 9508                      	ret
+000078 9104                      	lpm r16, Z
+000079 9508                      	ret
                                  
                                  ;Update 7-seg values A - F, r16 is number in 7-seg format
                                  UPDATE_7SEG:
-000082 bb0b                      	out		PORTA,r16	; skriv ut hela register r16
+00007a bb0b                      	out		PORTA,r16	; skriv ut hela register r16
 
 
 RESOURCE USE INFORMATION
@@ -1174,7 +1173,7 @@ counted separately from r26..r31 here.
 "ATmega16A" register use summary:
 x  :   0 y  :   0 z  :   2 r0 :   0 r1 :   4 r2 :   0 r3 :   0 r4 :   0 
 r5 :   0 r6 :   0 r7 :   0 r8 :   0 r9 :   0 r10:   0 r11:   0 r12:   0 
-r13:   0 r14:   0 r15:   0 r16:  26 r17:  26 r18:   4 r19:   0 r20:   0 
+r13:   0 r14:   0 r15:   0 r16:  25 r17:  26 r18:   4 r19:   0 r20:   0 
 r21:   0 r22:   0 r23:   0 r24:   0 r25:   0 r26:   0 r27:   0 r28:   0 
 r29:   0 r30:   4 r31:   4 
 Registers used: 7 out of 35 (20.0%)
@@ -1185,26 +1184,26 @@ andi  :   1 asr   :   0 bclr  :   0 bld   :   0 brbc  :   0 brbs  :   0
 brcc  :   0 brcs  :   0 break :   0 breq  :   0 brge  :   0 brhc  :   0 
 brhs  :   0 brid  :   0 brie  :   0 brlo  :   4 brlt  :   0 brmi  :   0 
 brne  :   0 brpl  :   0 brsh  :   0 brtc  :   0 brts  :   0 brvc  :   0 
-brvs  :   0 bset  :   0 bst   :   0 call  :   8 cbi   :   0 cbr   :   0 
+brvs  :   0 bset  :   0 bst   :   0 call  :   7 cbi   :   0 cbr   :   0 
 clc   :   0 clh   :   0 cli   :   0 cln   :   0 clr   :   6 cls   :   0 
 clt   :   0 clv   :   0 clz   :   0 com   :   0 cp    :   0 cpc   :   0 
 cpi   :   4 cpse  :   0 dec   :   0 eor   :   0 fmul  :   0 fmuls :   0 
 fmulsu:   0 icall :   0 ijmp  :   0 in    :   0 inc   :   5 jmp   :   4 
-ld    :   1 ldd   :   0 ldi   :  13 lds   :   4 lpm   :   2 lsl   :   2 
+ld    :   1 ldd   :   0 ldi   :  12 lds   :   4 lpm   :   2 lsl   :   2 
 lsr   :   0 mov   :   1 movw  :   0 mul   :   0 muls  :   0 mulsu :   0 
-neg   :   0 nop   :   0 or    :   0 ori   :   0 out   :   7 pop   :   1 
-push  :   1 rcall :   0 ret   :   7 reti  :   3 rjmp  :   4 rol   :   0 
+neg   :   0 nop   :   0 or    :   0 ori   :   0 out   :  11 pop   :   1 
+push  :   1 rcall :   0 ret   :   7 reti  :   2 rjmp  :   4 rol   :   0 
 ror   :   0 sbc   :   0 sbci  :   0 sbi   :   0 sbic  :   0 sbis  :   0 
 sbiw  :   0 sbr   :   0 sbrc  :   0 sbrs  :   0 sec   :   0 seh   :   0 
 sei   :   1 sen   :   0 ser   :   0 ses   :   0 set   :   0 sev   :   0 
-sez   :   0 sleep :   0 spm   :   0 st    :   0 std   :   0 sts   :  12 
+sez   :   0 sleep :   0 spm   :   0 st    :   0 std   :   0 sts   :   8 
 sub   :   0 subi  :   0 swap  :   0 tst   :   0 wdr   :   0 
 Instructions used: 22 out of 113 (19.5%)
 
 "ATmega16A" memory use summary [bytes]:
 Segment   Begin    End      Code   Data   Used    Size   Use%
 ---------------------------------------------------------------
-[.cseg] 0x000000 0x000108    244     20    264   16384   1.6%
+[.cseg] 0x000000 0x0000f8    228     20    248   16384   1.5%
 [.dseg] 0x000060 0x000060      0      0      0    1024   0.0%
 [.eseg] 0x000000 0x000000      0      0      0     512   0.0%
 

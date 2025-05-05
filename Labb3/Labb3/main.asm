@@ -54,12 +54,12 @@ MAIN:
 	call INIT_INT1
 
 	;Prepare PIN A & B as output
-	ldi r16, $00
+	ldi r16, $FF
 	out DDRA, r16
 	out DDRB, r16
 
 	;Prepare PIN D as input (for INT0 & INT1)
-	ldi r16, $FF
+	ldi r16, $00
 	out DDRD, r16
 
 	sei			;Aktivera avbrott (i-flaggan måste vara 1)
@@ -80,28 +80,28 @@ MAIN_LOOP:
 	;TODO infinite loop
 	
 INIT_INT0:
+
 	;Aktivera avbrott på INT0, (INT0 är konstant)
 	ldi r16,(1 << INT0)
-	sts	GICR, r16 ;(MCUSR = registret för externa avbrott
+	out	GICR, r16 ;(MCUSR = registret för externa avbrott
 	;Sätter rising edge m.h.a gicra register
 	ldi r16,(1<<ISC01)|(1<<ISC00)
-	sts MCUSR, r16
+	out MCUCR, r16
+	
 	ret
 
 INIT_INT1:
-	;Aktivera avbrott på INT1
-	ldi r16,(1 << INT1)
-	sts	GICR, r16 ;(EIMSK = registret för externa avbrott
 	;Sätter rising edge m.h.a eicra register
 	ldi r16,(0<<ISC11)|(1<<ISC10)
-	sts MCUSR, r16
+	out MCUCR, r16
+	
+	;Aktivera avbrott på INT1
+	ldi r16,(1 << INT1)
+	out	GICR, r16 ;(EIMSK = registret för externa avbrott
+
 	ret
 	
 EXT_INT0:
-	;TESTING INTERUPTS
-	out		PORTA,r16	; skriv ut hela register r16
-	reti
-
 	;increase BCD COUNT
 	push r17
 	
