@@ -29,7 +29,7 @@
 
 ;Tabell för BCD-kod till avkodad för displayen
 SEG_TABLE:
-		;ABCDEFG0 7-seg format
+	;ABCDEFG0 7-seg format
 	.db 0b01111111 ;0 
 	.db 0b00001101 ;1
 	.db 0b10110111 ;2
@@ -54,9 +54,13 @@ MAIN:
 	call INIT_INT1
 
 	;Prepare PIN A & B as output
-	ldi r16, $FF
+	ldi r16, $00
 	out DDRA, r16
 	out DDRB, r16
+
+	;Prepare PIN D as input (for INT0 & INT1)
+	ldi r16, $FF
+	out DDRD, r16
 
 	sei			;Aktivera avbrott (i-flaggan måste vara 1)
 	
@@ -78,22 +82,26 @@ MAIN_LOOP:
 INIT_INT0:
 	;Aktivera avbrott på INT0, (INT0 är konstant)
 	ldi r16,(1 << INT0)
-	sts	EIMSK, r16 ;(EIMSK = registret för externa avbrott
-	;Sätter rising edge m.h.a eicra register
+	sts	GICR, r16 ;(MCUSR = registret för externa avbrott
+	;Sätter rising edge m.h.a gicra register
 	ldi r16,(1<<ISC01)|(1<<ISC00)
-	sts EICRA, r16
+	sts MCUSR, r16
 	ret
 
 INIT_INT1:
 	;Aktivera avbrott på INT1
 	ldi r16,(1 << INT1)
-	sts	EIMSK, r16 ;(EIMSK = registret för externa avbrott
+	sts	GICR, r16 ;(EIMSK = registret för externa avbrott
 	;Sätter rising edge m.h.a eicra register
 	ldi r16,(0<<ISC11)|(1<<ISC10)
-	sts EICRA, r16
+	sts MCUSR, r16
 	ret
 	
 EXT_INT0:
+	;TESTING INTERUPTS
+	out		PORTA,r16	; skriv ut hela register r16
+	reti
+
 	;increase BCD COUNT
 	push r17
 	
