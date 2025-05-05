@@ -29,6 +29,7 @@
 
 ;Tabell för BCD-kod till avkodad för displayen
 SEG_TABLE:
+		;ABCDEFG0 7-seg format
 	.db 0b01111111 ;0 
 	.db 0b00001101 ;1
 	.db 0b10110111 ;2
@@ -58,6 +59,16 @@ MAIN:
 	out DDRB, r16
 
 	sei			;Aktivera avbrott (i-flaggan måste vara 1)
+	
+	;THIS IS JUST TESTING
+	;ldi r19, 3
+	;sts TIME, r19
+	;ldi r19, 2
+	;sts TIME1, r19
+	;call EXT_INT1
+	;call EXT_INT1
+	;call EXT_INT1
+	;call EXT_INT1
 
 
 MAIN_LOOP:
@@ -82,29 +93,61 @@ INIT_INT1:
 	sts EICRA, r16
 	ret
 	
-
 EXT_INT0:
 	;increase BCD COUNT
-	push r16
 	push r17
-
-	clr r16 ;används senare för carry
-
+	
 	;entalsekunder
 	lds r17, TIME ;ladda värdet från minnet
 	inc r17
 	cpi r17, 0x0A ; jämför med tio
-	brlo no_carry_sec1  ; (branch if lower)
+	brlo NO_CARRY_SEC1  ; (branch if lower)
 	clr r17  ;nollställ om det var carry
-	sts TIME, 17
+	sts TIME, r17
 
 	;tiotal sekunder
 	lds r17, TIME1  ;TIME1 är andra minnescellen i time
+	inc r17
+	cpi r17, 0x06
+	brlo NO_CARRY_SEC10
+	clr r17
+	sts TIME1, r17
 	
-	pop r17
-	pop r16
+	;ental minut
+	lds r17, TIME2 ;ladda värdet från minnet
+	inc r17
+	cpi r17, 0x0A ; jämför med tio
+	brlo NO_CARRY_MIN1  ; (branch if lower)
+	clr r17  ;nollställ om det var carry
+	sts TIME2, r17
 
+	;tiotal minuter
+	lds r17, TIME3  ;TIME1 är andra minnescellen i time
+	inc r17
+	cpi r17, 0x06
+	brlo NO_CARRY_MIN10
+	clr r17
+	sts TIME1, r17
+
+END_OF_EXT_INT0:
+	pop r17
 	reti
+
+NO_CARRY_SEC1:
+	sts TIME, r17
+	rjmp END_OF_EXT_INT0
+
+NO_CARRY_SEC10:
+	sts TIME1, r17
+	rjmp END_OF_EXT_INT0
+
+NO_CARRY_MIN1:
+	sts TIME2, r17
+	rjmp END_OF_EXT_INT0
+
+NO_CARRY_MIN10:
+	sts TIME3, r17
+	rjmp END_OF_EXT_INT0
 
 EXT_INT1:
 	call MULTIPLEX_DISPLAY
@@ -116,6 +159,7 @@ MULTIPLEX_DISPLAY:
 	;use r18 to update active display
 	call UPDATE_ACTIVE_DISPLAY
 
+	call READ_DISPLAY_NUMBER
 	;Get 7-seg representation of number in r18 display
 	call SEG_LOOKUP
 	;Output 7-seg to current active display
@@ -132,12 +176,31 @@ UPDATE_ACTIVE_DISPLAY:
 	out		PORTB,r18	; skriv ut aktiv display på PORT-B
 	ret
 
-;Uses r18 to lookup 7-seg representation of number
-;7-seg output => r16
-SEG_LOOKUP:
+;Uses r18 to read number for active display
+;Output => r16
+READ_DISPLAY_NUMBER:
 	;We use r16 as offset
 	mov r16, r18
+	
+	; Ladda addressen till Lookup table i Z-pointer
+	ldi r30, low(TIME)
+	ldi r31, high(TIME)
+	
+    ; Varje steg i Lookup är egentligen 2 steg, därav multiplicera offset med 2
+    lsl  r16    ; r16 *= 2
 
+	; Add r16 offset to Z-pointer
+	clr r1
+	add r30, r16
+	add r31, r1	;r1 should be carry
+
+	; Read number for active display into r16
+	ld r16, Z
+	ret
+
+;Uses r16 to lookup 7-seg representation of number
+;7-seg output => r16
+SEG_LOOKUP:
 	; Ladda addressen till Lookup table i Z-pointer
 	ldi r30, low(SEG_TABLE << 1)
 	ldi r31, high(SEG_TABLE << 1)
