@@ -30,16 +30,16 @@
 ;Tabell för BCD-kod till avkodad för displayen
 SEG_TABLE:
 	;ABCDEFG0 7-seg format
-	.db 0b01111111 ;0 
-	.db 0b00001101 ;1
-	.db 0b10110111 ;2
-	.db 0b10011111 ;3
-	.db 0b11001101 ;4
-	.db 0b11011011 ;5
-	.db 0b11111011 ;6
-	.db 0b00001111 ;7
-	.db 0b11111111 ;8
-	.db 0b11001111 ;9
+	.db 0b01111110 ;0 
+	.db 0b00001100 ;1
+	.db 0b10110110 ;2
+	.db 0b10011110 ;3
+	.db 0b11001100 ;4
+	.db 0b11011010 ;5
+	.db 0b11111010 ;6
+	.db 0b00001110 ;7
+	.db 0b11111110 ;8
+	.db 0b11001110 ;9
 
 
 MAIN:
@@ -102,9 +102,10 @@ INIT_INT1:
 	ret
 	
 EXT_INT0:
+	reti
 	;increase BCD COUNT
 	push r17
-	
+
 	;entalsekunder
 	lds r17, TIME ;ladda värdet från minnet
 	inc r17
@@ -167,7 +168,8 @@ MULTIPLEX_DISPLAY:
 	;use r18 to update active display
 	call UPDATE_ACTIVE_DISPLAY
 
-	call READ_DISPLAY_NUMBER
+	call READ_DISPLAY_NUMBER	;TODO FUCKED (gives us random numbers)
+	ldi r16, 9
 	;Get 7-seg representation of number in r18 display
 	call SEG_LOOKUP
 	;Output 7-seg to current active display
