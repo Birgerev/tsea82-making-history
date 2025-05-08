@@ -62,17 +62,27 @@ MAIN:
 	ldi r16, $00
 	out DDRD, r16
 
+	ldi r18, 0		;Start on display 0
+
 	sei			;Aktivera avbrott (i-flaggan måste vara 1)
 	
 	;THIS IS JUST TESTING
-	;ldi r19, 3
-	;sts TIME, r19
-	;ldi r19, 2
-	;sts TIME1, r19
-	;call EXT_INT1
-	;call EXT_INT1
-	;call EXT_INT1
-	;call EXT_INT1
+	ldi r19, 1
+	sts TIME, r19
+	ldi r19, 2
+	sts TIME1, r19
+	ldi r19, 3
+	sts TIME2, r19
+	ldi r19, 4
+	sts TIME3, r19
+	call EXT_INT1
+	call EXT_INT1
+	call EXT_INT1
+	call EXT_INT1
+	call EXT_INT1
+	call EXT_INT1
+	call EXT_INT1
+	call EXT_INT1
 
 
 MAIN_LOOP:
@@ -169,7 +179,6 @@ MULTIPLEX_DISPLAY:
 	call UPDATE_ACTIVE_DISPLAY
 
 	call READ_DISPLAY_NUMBER	;TODO FUCKED (gives us random numbers)
-	ldi r16, 9
 	;Get 7-seg representation of number in r18 display
 	call SEG_LOOKUP
 	;Output 7-seg to current active display
@@ -197,7 +206,7 @@ READ_DISPLAY_NUMBER:
 	ldi r31, high(TIME)
 	
     ; Varje steg i Lookup är egentligen 2 steg, därav multiplicera offset med 2
-    lsl  r16    ; r16 *= 2
+    ;lsl  r16    ; r16 *= 2
 
 	; Add r16 offset to Z-pointer
 	clr r1
