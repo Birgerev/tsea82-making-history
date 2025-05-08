@@ -50,8 +50,7 @@ MAIN:
 	out SPL, r16
 
 	;Initiera avbrott
-	call INIT_INT0
-	call INIT_INT1
+	call INIT_INT
 
 	;Prepare PIN A & B as output
 	ldi r16, $FF
@@ -64,55 +63,33 @@ MAIN:
 
 	ldi r18, 0		;Start on display 0
 
-	sei			;Aktivera avbrott (i-flaggan måste vara 1)
+	sei			;Aktivera avbrott (i-flaggan måste vara 1
 	
-	;THIS IS JUST TESTING
-	ldi r19, 1
-	sts TIME, r19
-	ldi r19, 2
-	sts TIME1, r19
-	ldi r19, 3
-	sts TIME2, r19
-	ldi r19, 4
-	sts TIME3, r19
-	call EXT_INT1
-	call EXT_INT1
-	call EXT_INT1
-	call EXT_INT1
-	call EXT_INT1
-	call EXT_INT1
-	call EXT_INT1
-	call EXT_INT1
-
+	ldi r16, 0
+	sts TIME, r16
+	ldi r16, 0
+	sts TIME1, r16
+	ldi r16, 0
+	sts TIME2, r16
+	ldi r16, 0
+	sts TIME3, r16
 
 MAIN_LOOP:
 	jmp MAIN_LOOP
 	;TODO infinite loop
 	
-INIT_INT0:
-
-	;Aktivera avbrott på INT0, (INT0 är konstant)
-	ldi r16,(1 << INT0)
+INIT_INT:
+	;Aktivera avbrott på INT0 & INT1
+	ldi r16,(1 << INT0)|(1 << INT1)
 	out	GICR, r16 ;(MCUSR = registret för externa avbrott
-	;Sätter rising edge m.h.a gicra register
-	ldi r16,(1<<ISC01)|(1<<ISC00)
-	out MCUCR, r16
-	
-	ret
 
-INIT_INT1:
-	;Sätter rising edge m.h.a eicra register
-	ldi r16,(0<<ISC11)|(1<<ISC10)
+	;Sätter rising edge m.h.a gicra register
+	ldi r16,(1<<ISC01)|(1<<ISC00)|(0<<ISC11)|(1<<ISC10)
 	out MCUCR, r16
-	
-	;Aktivera avbrott på INT1
-	ldi r16,(1 << INT1)
-	out	GICR, r16 ;(EIMSK = registret för externa avbrott
 
 	ret
 	
 EXT_INT0:
-	reti
 	;increase BCD COUNT
 	push r17
 
@@ -146,7 +123,7 @@ EXT_INT0:
 	cpi r17, 0x06
 	brlo NO_CARRY_MIN10
 	clr r17
-	sts TIME1, r17
+	sts TIME3, r17
 
 END_OF_EXT_INT0:
 	pop r17

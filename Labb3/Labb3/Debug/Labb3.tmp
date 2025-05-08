@@ -23,21 +23,20 @@
  </OUTPUT_FILES>
  <LABELS>
   <MAIN><FILE>C:\Github\tsea82-making-history\Labb3\Labb3\main.asm</FILE><LINE>45</LINE></MAIN>
-  <EXT_INT0><FILE>C:\Github\tsea82-making-history\Labb3\Labb3\main.asm</FILE><LINE>114</LINE></EXT_INT0>
-  <EXT_INT1><FILE>C:\Github\tsea82-making-history\Labb3\Labb3\main.asm</FILE><LINE>171</LINE></EXT_INT1>
+  <EXT_INT0><FILE>C:\Github\tsea82-making-history\Labb3\Labb3\main.asm</FILE><LINE>92</LINE></EXT_INT0>
+  <EXT_INT1><FILE>C:\Github\tsea82-making-history\Labb3\Labb3\main.asm</FILE><LINE>148</LINE></EXT_INT1>
   <SEG_TABLE><FILE>C:\Github\tsea82-making-history\Labb3\Labb3\main.asm</FILE><LINE>31</LINE></SEG_TABLE>
-  <INIT_INT0><FILE>C:\Github\tsea82-making-history\Labb3\Labb3\main.asm</FILE><LINE>92</LINE></INIT_INT0>
-  <INIT_INT1><FILE>C:\Github\tsea82-making-history\Labb3\Labb3\main.asm</FILE><LINE>103</LINE></INIT_INT1>
-  <MAIN_LOOP><FILE>C:\Github\tsea82-making-history\Labb3\Labb3\main.asm</FILE><LINE>88</LINE></MAIN_LOOP>
-  <NO_CARRY_SEC1><FILE>C:\Github\tsea82-making-history\Labb3\Labb3\main.asm</FILE><LINE>155</LINE></NO_CARRY_SEC1>
-  <NO_CARRY_SEC10><FILE>C:\Github\tsea82-making-history\Labb3\Labb3\main.asm</FILE><LINE>159</LINE></NO_CARRY_SEC10>
-  <NO_CARRY_MIN1><FILE>C:\Github\tsea82-making-history\Labb3\Labb3\main.asm</FILE><LINE>163</LINE></NO_CARRY_MIN1>
-  <NO_CARRY_MIN10><FILE>C:\Github\tsea82-making-history\Labb3\Labb3\main.asm</FILE><LINE>167</LINE></NO_CARRY_MIN10>
-  <END_OF_EXT_INT0><FILE>C:\Github\tsea82-making-history\Labb3\Labb3\main.asm</FILE><LINE>151</LINE></END_OF_EXT_INT0>
-  <MULTIPLEX_DISPLAY><FILE>C:\Github\tsea82-making-history\Labb3\Labb3\main.asm</FILE><LINE>175</LINE></MULTIPLEX_DISPLAY>
-  <UPDATE_ACTIVE_DISPLAY><FILE>C:\Github\tsea82-making-history\Labb3\Labb3\main.asm</FILE><LINE>194</LINE></UPDATE_ACTIVE_DISPLAY>
-  <READ_DISPLAY_NUMBER><FILE>C:\Github\tsea82-making-history\Labb3\Labb3\main.asm</FILE><LINE>200</LINE></READ_DISPLAY_NUMBER>
-  <SEG_LOOKUP><FILE>C:\Github\tsea82-making-history\Labb3\Labb3\main.asm</FILE><LINE>222</LINE></SEG_LOOKUP>
-  <UPDATE_7SEG><FILE>C:\Github\tsea82-making-history\Labb3\Labb3\main.asm</FILE><LINE>240</LINE></UPDATE_7SEG>
+  <INIT_INT><FILE>C:\Github\tsea82-making-history\Labb3\Labb3\main.asm</FILE><LINE>81</LINE></INIT_INT>
+  <MAIN_LOOP><FILE>C:\Github\tsea82-making-history\Labb3\Labb3\main.asm</FILE><LINE>77</LINE></MAIN_LOOP>
+  <NO_CARRY_SEC1><FILE>C:\Github\tsea82-making-history\Labb3\Labb3\main.asm</FILE><LINE>132</LINE></NO_CARRY_SEC1>
+  <NO_CARRY_SEC10><FILE>C:\Github\tsea82-making-history\Labb3\Labb3\main.asm</FILE><LINE>136</LINE></NO_CARRY_SEC10>
+  <NO_CARRY_MIN1><FILE>C:\Github\tsea82-making-history\Labb3\Labb3\main.asm</FILE><LINE>140</LINE></NO_CARRY_MIN1>
+  <NO_CARRY_MIN10><FILE>C:\Github\tsea82-making-history\Labb3\Labb3\main.asm</FILE><LINE>144</LINE></NO_CARRY_MIN10>
+  <END_OF_EXT_INT0><FILE>C:\Github\tsea82-making-history\Labb3\Labb3\main.asm</FILE><LINE>128</LINE></END_OF_EXT_INT0>
+  <MULTIPLEX_DISPLAY><FILE>C:\Github\tsea82-making-history\Labb3\Labb3\main.asm</FILE><LINE>152</LINE></MULTIPLEX_DISPLAY>
+  <UPDATE_ACTIVE_DISPLAY><FILE>C:\Github\tsea82-making-history\Labb3\Labb3\main.asm</FILE><LINE>171</LINE></UPDATE_ACTIVE_DISPLAY>
+  <READ_DISPLAY_NUMBER><FILE>C:\Github\tsea82-making-history\Labb3\Labb3\main.asm</FILE><LINE>177</LINE></READ_DISPLAY_NUMBER>
+  <SEG_LOOKUP><FILE>C:\Github\tsea82-making-history\Labb3\Labb3\main.asm</FILE><LINE>199</LINE></SEG_LOOKUP>
+  <UPDATE_7SEG><FILE>C:\Github\tsea82-making-history\Labb3\Labb3\main.asm</FILE><LINE>217</LINE></UPDATE_7SEG>
  </LABELS>
 </ASSEMBLER_INFO>
