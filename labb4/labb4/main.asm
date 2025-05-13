@@ -131,7 +131,7 @@ AD_X:
 	jmp		ADC10
 AD_Y:
 	ldi		r16, AD_CHAN_Y
-ADC10:
+ADC10:  ;check value from A to D register
 	ori		r16,(1<<REFS0)
 	out		ADMUX,r16
 	ldi		r16,(1<<ADEN)
@@ -344,11 +344,11 @@ BEEP:
 	ldi		r24, LOW(BEEP_LENGTH)
 	ldi		r25, HIGH(BEEP_LENGTH)
 BEEP_LOOP:
-	sbi		PORTD,0x07
+	sbi		PORTD,0x07  ;set output to high 
 	rcall	DELAY_BEEP
-	cbi		PORTD,0x07
+	cbi		PORTD,0x07 ;set output to low
 	rcall	DELAY_BEEP
-	sbiw	r24,0x01
+	sbiw	r24,0x01  ;subtract one from r24, equals zero if loop finished
 	brne	BEEP_LOOP
 	pop		r25
 	pop		r24

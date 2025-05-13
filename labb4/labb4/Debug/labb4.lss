@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.7  C:\Github\tsea82-making-history\labb4\labb4\main.asm Fri May 09 12:58:31 2025
+AVRASM ver. 2.2.7  C:\Github\tsea82-making-history\labb4\labb4\main.asm Tue May 13 10:58:08 2025
 
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\avrasm\inc\m16adef.inc'
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\avrasm\inc\m16adef.inc'
@@ -1008,7 +1008,7 @@ AVRASM ver. 2.2.7  C:\Github\tsea82-making-history\labb4\labb4\main.asm Fri May 
 000045 940c 0048                 	jmp		ADC10
                                  AD_Y:
 000047 e001                      	ldi		r16, AD_CHAN_Y
-                                 ADC10:
+                                 ADC10:  ;check value from A to D register
 000048 6400                      	ori		r16,(1<<REFS0)
 000049 b907                      	out		ADMUX,r16
 00004a e800                      	ldi		r16,(1<<ADEN)
@@ -1229,11 +1229,11 @@ AVRASM ver. 2.2.7  C:\Github\tsea82-making-history\labb4\labb4\main.asm Fri May 
 0000eb e684                      	ldi		r24, LOW(BEEP_LENGTH)
 0000ec e090                      	ldi		r25, HIGH(BEEP_LENGTH)
                                  BEEP_LOOP:
-0000ed 9a97                      	sbi		PORTD,0x07
+0000ed 9a97                      	sbi		PORTD,0x07  ;set output to high 
 0000ee d00b                      	rcall	DELAY_BEEP
-0000ef 9897                      	cbi		PORTD,0x07
+0000ef 9897                      	cbi		PORTD,0x07 ;set output to low
 0000f0 d009                      	rcall	DELAY_BEEP
-0000f1 9701                      	sbiw	r24,0x01
+0000f1 9701                      	sbiw	r24,0x01  ;subtract one from r24, equals zero if loop finished
 0000f2 f7d1                      	brne	BEEP_LOOP
 0000f3 919f                      	pop		r25
 0000f4 918f                      	pop		r24
