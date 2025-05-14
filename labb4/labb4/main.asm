@@ -98,25 +98,25 @@ MUX:
 	push	ZL
 	push	r17
 MUX_LINE:
-	ldi		ZH, HIGH(LINE)
+	ldi		ZH, HIGH(LINE) ;get address of line
 	ldi		ZL, LOW(LINE)
-	ld		r16, Z
+	ld		r16, Z  ;load which line you're on in r16
 	inc		r16
-	cpi		r16, 0x05
+	cpi		r16, 0x05   ;if we're out of bounds 
 	brlt	MUX_OUT_LINE
 	clr		r16
 MUX_OUT_LINE:
 	clr r2
-	st		Z, r16	
+	st		Z , r16
 	ldi		ZH, HIGH(VMEM)
 	ldi		ZL, LOW(VMEM)
 	add		ZL, r16
 	adc		ZH, r2
 	swap	r16
-	out		PORTB, r2
+	out		PORTB, r2 
 	out		PORTD, r16
 	ld		r16, Z
-	out		PORTB, r16
+	out		PORTB, r16   ;the values for the row
 MUX_SEED:
 	INCSRAM SEED
 MUX_EXIT:
